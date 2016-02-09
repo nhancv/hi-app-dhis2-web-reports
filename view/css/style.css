@@ -1,5 +1,49 @@
 /*
 NhanCao Fri Jan 29 2016
 */
+#container2 {
+    clear: left;
+    float: left;
+    width: 100%;
+    overflow: hidden;
+    background: #ffa7a7;
+    /* column 2 background colour */
+}
+
+#container1 {
+    float: left;
+    width: 100%;
+    position: relative;
+    right: 50%;
+    background: #fff689;
+    /* column 1 background colour */
+}
+
+#col1 {
+    float: left;
+    width: 46%;
+    position: relative;
+    left: 52%;
+    overflow: hidden;
+}
+
+#col2 {
+    float: left;
+    width: 46%;
+    position: relative;
+    left: 56%;
+    overflow: hidden;
+}
+
+#footer {
+    clear: both;
+    float: left;
+    width: 100%;
+}
+
+#chart1, #chart2, #chart3 {
+    min-width: 310px;
+    height: 400px;
+}
 
 /*# sourceMappingURL=style.css.map */
