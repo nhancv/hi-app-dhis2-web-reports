@@ -6,12 +6,17 @@
     <script src="js/highcharts.js"></script>
     <script src="js/exporting.js"></script>
     <script src="controller/createcharts.js"></script>
+    <script src="controller/callApi.js"></script>
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <title></title>
 </head>
 <body>
 <script>
     $(function () {
+//        callAjax("https://play.dhis2.org/demo/dhis-web-commons/security/login.action", "slkdf","dlsfk", function(data){
+//            console.log(data);
+//        });
+
         createBarCharts('#chart1');
         createLineCharts('#chart2');
         createOverviewCharts('#chart3');
