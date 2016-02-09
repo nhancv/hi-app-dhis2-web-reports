@@ -26,22 +26,21 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-dhis2.util.namespace( 'dhis2.array' );
+dhis2.util.namespace('dhis2.array');
 
 /**
  * Remove part of an array.
- * 
+ *
  * @param array {Array} Array to remove from
  * @param from {Number} Start index
  * @param to {Number} End index
- * 
+ *
  * @returns {Array} Array without the removed parts
  */
-dhis2.array.remove = function( array, from, to )
-{
+dhis2.array.remove = function (array, from, to) {
     // Array Remove - By John Resig (MIT Licensed)
-    var rest = array.slice( ( to || from ) + 1 || array.length );
+    var rest = array.slice(( to || from ) + 1 || array.length);
     array.length = from < 0 ? array.length + from : from;
 
-    return array.push.apply( array, rest );
+    return array.push.apply(array, rest);
 };

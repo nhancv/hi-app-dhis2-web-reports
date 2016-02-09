@@ -2,7 +2,7 @@
  * Created by nhancao on 2/9/16.
  */
 
-function callAjax(apiUrl, username, password, callback){
+function callAjax(apiUrl, username, password, callback) {
     var form_data = {
         url: apiUrl,
         u: username,

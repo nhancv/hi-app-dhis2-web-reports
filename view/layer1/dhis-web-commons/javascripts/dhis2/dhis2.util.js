@@ -38,37 +38,37 @@ dhis2['util'] = dhis2['util'] || {};
  *
  * @returns {object} Namespace object
  */
-dhis2.util.namespace = function( path ) {
-  var parts = path.split('.');
-  var parent = window;
-  var currentPart = '';
+dhis2.util.namespace = function (path) {
+    var parts = path.split('.');
+    var parent = window;
+    var currentPart = '';
 
-  for( var i = 0, length = parts.length; i < length; i++ ) {
-    currentPart = parts[i];
-    parent[currentPart] = parent[currentPart] || {};
-    parent = parent[currentPart];
-  }
+    for (var i = 0, length = parts.length; i < length; i++) {
+        currentPart = parts[i];
+        parent[currentPart] = parent[currentPart] || {};
+        parent = parent[currentPart];
+    }
 
-  return parent;
+    return parent;
 };
 
 /**
  * Escape function for regular expressions.
  */
-dhis2.util.escape = function( text ) {
-  return text.replace(/[-[\]{}()*+?.,\/\\^$|#\s]/g, "\\$&");
+dhis2.util.escape = function (text) {
+    return text.replace(/[-[\]{}()*+?.,\/\\^$|#\s]/g, "\\$&");
 };
 
 /**
  * Convert a Java properties file into a javascript object.
  */
-dhis2.util.parseJavaProperties = function( javaProperties ) {
+dhis2.util.parseJavaProperties = function (javaProperties) {
     var obj = {}, lines;
-    
+
     if (typeof javaProperties !== 'string') {
         return obj;
     }
-    
+
     lines = javaProperties.split(/\n/);
 
     for (var i = 0, a; i < lines.length; i++) {
@@ -85,67 +85,67 @@ dhis2.util.parseJavaProperties = function( javaProperties ) {
  * jQuery cannot correctly filter strings with () in them, so here is a fix
  * until jQuery gets updated.
  */
-dhis2.util.jqTextFilterCaseSensitive = function( key, not ) {
-  key = dhis2.util.escape(key);
-  not = not || false;
+dhis2.util.jqTextFilterCaseSensitive = function (key, not) {
+    key = dhis2.util.escape(key);
+    not = not || false;
 
-  if( not ) {
-    return function( i, el ) {
-      return !!!$(el).text().match("" + key);
-    };
-  }
-  else {
-    return function( i, el ) {
-      return !!$(el).text().match("" + key);
-    };
-  }
+    if (not) {
+        return function (i, el) {
+            return !!!$(el).text().match("" + key);
+        };
+    }
+    else {
+        return function (i, el) {
+            return !!$(el).text().match("" + key);
+        };
+    }
 };
 
-dhis2.util.jqTextFilter = function( key, not ) {
-  key = dhis2.util.escape(key).toLowerCase();
-  not = not || false;
+dhis2.util.jqTextFilter = function (key, not) {
+    key = dhis2.util.escape(key).toLowerCase();
+    not = not || false;
 
-  if( not ) {
-    return function( i, el ) {
-      return !!!$(el).text().toLowerCase().match("" + key);
-    };
-  }
-  else {
-    return function( i, el ) {
-      return !!$(el).text().toLowerCase().match("" + key);
-    };
-  }
+    if (not) {
+        return function (i, el) {
+            return !!!$(el).text().toLowerCase().match("" + key);
+        };
+    }
+    else {
+        return function (i, el) {
+            return !!$(el).text().toLowerCase().match("" + key);
+        };
+    }
 };
 
 /**
  * Generates a valid UUID.
  */
-dhis2.util.uuid = function() {
-  var S4 = function() {
-    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-  };
+dhis2.util.uuid = function () {
+    var S4 = function () {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+    };
 
-  return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+    return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 };
 
 /**
  * Generates a valid UID.
  */
-dhis2.util.uid = function() {
-  var letters = "abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  var allowedChars = "0123456789" + letters;
-  var NUMBER_OF_CODEPOINTS = allowedChars.length;
-  var CODESIZE = 11;
-  var uid;
+dhis2.util.uid = function () {
+    var letters = "abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var allowedChars = "0123456789" + letters;
+    var NUMBER_OF_CODEPOINTS = allowedChars.length;
+    var CODESIZE = 11;
+    var uid;
 
-  //the uid should start with a char 
-  uid = letters.charAt( Math.random() * (letters.length) );
+    //the uid should start with a char
+    uid = letters.charAt(Math.random() * (letters.length));
 
-  for ( var i = 1; i < CODESIZE; ++i ){
-    uid += allowedChars.charAt( Math.random() * (NUMBER_OF_CODEPOINTS) );
-  }
-  
-  return uid;
+    for (var i = 1; i < CODESIZE; ++i) {
+        uid += allowedChars.charAt(Math.random() * (NUMBER_OF_CODEPOINTS));
+    }
+
+    return uid;
 };
 
 /**
@@ -154,19 +154,19 @@ dhis2.util.uid = function() {
  * argument is a single promise object, the object is wrapped in an array. If the
  * argument is an array of promise objects, the array is returned unmodified.
  */
-dhis2.util.normalizeArguments = function( args ) {
-  if( !args || !args.length || !args[0] ) {
-    return undefined;
-  }
+dhis2.util.normalizeArguments = function (args) {
+    if (!args || !args.length || !args[0]) {
+        return undefined;
+    }
 
-  if( $.isArray(args[0]) ) {
-    return args;
-  }
-  else {
-    var arr = [];
-    arr[0] = args;
-    return arr;
-  }
+    if ($.isArray(args[0])) {
+        return args;
+    }
+    else {
+        var arr = [];
+        arr[0] = args;
+        return arr;
+    }
 };
 
 /**
@@ -174,8 +174,8 @@ dhis2.util.normalizeArguments = function( args ) {
  * registered inside a form it will be loaded every time the form is loaded,
  * hence the need to unregister and the register the function.
  */
-dhis2.util.on = function( event, fn ) {
-    $( document ).off( event ).on( event, fn );
+dhis2.util.on = function (event, fn) {
+    $(document).off(event).on(event, fn);
 };
 
 /**
@@ -183,14 +183,14 @@ dhis2.util.on = function( event, fn ) {
  * in milliseconds is the value, intended to force fresh non-cached responses
  * from server.
  */
-dhis2.util.cacheBust = function() {
-	return "_=" + new Date().getTime();
+dhis2.util.cacheBust = function () {
+    return "_=" + new Date().getTime();
 }
 
 /**
  * Sorts the two given objects on the name property.
  */
-dhis2.util.nameSort = function( a, b ) {
+dhis2.util.nameSort = function (a, b) {
     return a.name > b.name ? 1 : a.name < b.name ? -1 : 0;
 }
 
@@ -198,26 +198,26 @@ dhis2.util.nameSort = function( a, b ) {
  * adds ':containsNC' to filtering.
  * $(sel).find(':containsNC(key)').doSomething();
  */
-$.expr[":"].containsNC = function( a, i, m, r ) {
-  var search = dhis2.util.escape(m[3]);
-  return jQuery(a).text().toUpperCase().indexOf(m[search].toUpperCase()) >= 0;
+$.expr[":"].containsNC = function (a, i, m, r) {
+    var search = dhis2.util.escape(m[3]);
+    return jQuery(a).text().toUpperCase().indexOf(m[search].toUpperCase()) >= 0;
 };
 
 /**
  * adds ':regex' to filtering, use to filter by regular expression
  */
-$.expr[":"].regex = function( a, i, m, r ) {
-  var re = new RegExp(m[3], 'i');
-  return re.test(jQuery(a).text());
+$.expr[":"].regex = function (a, i, m, r) {
+    var re = new RegExp(m[3], 'i');
+    return re.test(jQuery(a).text());
 };
 
 /**
  * adds ':regex' to filtering, use to filter by regular expression
  * (this is the case sensitive version)
  */
-$.expr[":"].regexCS = function( a, i, m, r ) {
-  var re = new RegExp(m[3]);
-  return re.test(jQuery(a).text());
+$.expr[":"].regexCS = function (a, i, m, r) {
+    var re = new RegExp(m[3]);
+    return re.test(jQuery(a).text());
 };
 
 /**
@@ -225,43 +225,43 @@ $.expr[":"].regexCS = function( a, i, m, r ) {
  * available, if not it will provide a pure javascript implementation.
  * @returns array of keys
  */
-if( !Object.keys ) {
-  Object.keys = function( obj ) {
-    var keys = [];
-    for( var k in obj )
-      if( obj.hasOwnProperty(k) )
-        keys.push(k);
-    return keys;
-  };
+if (!Object.keys) {
+    Object.keys = function (obj) {
+        var keys = [];
+        for (var k in obj)
+            if (obj.hasOwnProperty(k))
+                keys.push(k);
+        return keys;
+    };
 }
 
 // http://stackoverflow.com/questions/3326650/console-is-undefined-error-for-internet-explorer
-(function() {
-  var method;
-  var noop = function() {
-  };
+(function () {
+    var method;
+    var noop = function () {
+    };
 
-  var methods = [
-    'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
-    'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
-    'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
-    'timeStamp', 'trace', 'warn'
-  ];
+    var methods = [
+        'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
+        'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
+        'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
+        'timeStamp', 'trace', 'warn'
+    ];
 
-  var length = methods.length;
-  var console = (window.console = window.console || {});
+    var length = methods.length;
+    var console = (window.console = window.console || {});
 
-  while( length-- ) {
-    method = methods[length];
+    while (length--) {
+        method = methods[length];
 
-    // Only stub undefined methods.
-    if( !console[method] ) {
-      console[method] = noop;
+        // Only stub undefined methods.
+        if (!console[method]) {
+            console[method] = noop;
+        }
     }
-  }
 
-  // this shouldn't really be used anymore, but leaving it in for legacy reasons
-  window.log = function( msg ) {
-    console.log(msg);
-  }
+    // this shouldn't really be used anymore, but leaving it in for legacy reasons
+    window.log = function (msg) {
+        console.log(msg);
+    }
 }());

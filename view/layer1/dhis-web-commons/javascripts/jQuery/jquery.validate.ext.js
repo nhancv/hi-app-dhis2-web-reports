@@ -1,20 +1,19 @@
-
-jQuery.validator.addMethod("remoteWarning", function(value, element, param) {
-    if ( this.optional(element) )
+jQuery.validator.addMethod("remoteWarning", function (value, element, param) {
+    if (this.optional(element))
         return "dependency-mismatch";
 
     var previous = this.previousValue(element);
-    if (!this.settings.messages[element.name] )
+    if (!this.settings.messages[element.name])
         this.settings.messages[element.name] = {};
     previous.originalMessage = this.settings.messages[element.name].remote;
     this.settings.messages[element.name].remote = previous.message;
 
-    param = typeof param == "string" && {url:param} || param;
+    param = typeof param == "string" && {url: param} || param;
 
-    if ( this.pending[element.name] ) {
+    if (this.pending[element.name]) {
         return "pending";
     }
-    if ( previous.old === value ) {
+    if (previous.old === value) {
         return previous.valid;
     }
 
@@ -29,11 +28,11 @@ jQuery.validator.addMethod("remoteWarning", function(value, element, param) {
         port: "validate" + element.name,
         dataType: "json",
         data: data,
-        success: function(response) {
+        success: function (response) {
             validator.settings.messages[element.name].remote = previous.originalMessage;
             var valid = response.response === 'success';
 
-            if ( valid ) {
+            if (valid) {
                 console.log("is valid")
                 var submitted = validator.formSubmitted;
                 validator.prepareElement(element);
@@ -41,7 +40,7 @@ jQuery.validator.addMethod("remoteWarning", function(value, element, param) {
                 validator.successList.push(element);
                 validator.showErrors();
             } else {
-                var message = (previous.message = response.message || validator.defaultMessage( element, "remote" ));
+                var message = (previous.message = response.message || validator.defaultMessage(element, "remote"));
                 alert(message);
 
                 var submitted = validator.formSubmitted;
@@ -51,12 +50,12 @@ jQuery.validator.addMethod("remoteWarning", function(value, element, param) {
                 validator.showErrors();
 
                 /*
-                var errors = {};
-                var message = (previous.message = response.message || validator.defaultMessage( element, "remote" ));
+                 var errors = {};
+                 var message = (previous.message = response.message || validator.defaultMessage( element, "remote" ));
 
-                errors[element.name] = previous.message = $.isFunction(message) ? message(value) : message;
-                validator.showErrors(errors);
-                */
+                 errors[element.name] = previous.message = $.isFunction(message) ? message(value) : message;
+                 validator.showErrors(errors);
+                 */
             }
 
             previous.valid = true;
@@ -66,8 +65,8 @@ jQuery.validator.addMethod("remoteWarning", function(value, element, param) {
     return "pending";
 });
 
-methods_en_GB = function() {
-    jQuery.validator.addMethod("dateI", function(value, element, params) {
+methods_en_GB = function () {
+    jQuery.validator.addMethod("dateI", function (value, element, params) {
         var check = false;
         var re = /^\d{4}[\/-]\d{1,2}[\/-]\d{1,2}$/;
         if (re.test(value)) {
@@ -87,8 +86,8 @@ methods_en_GB = function() {
     });
 };
 
-methods_vi_VN = function() {
-    jQuery.validator.addMethod("dateI", function(value, element, params) {
+methods_vi_VN = function () {
+    jQuery.validator.addMethod("dateI", function (value, element, params) {
         var check = false;
         var re = /^\d{1,2}[\/-]\d{1,2}[\/-]\d{4}$/;
         if (re.test(value)) {
@@ -108,172 +107,173 @@ methods_vi_VN = function() {
     });
 };
 
- jQuery.validator.addMethod("conditionRemote", function(value, element) {
-	var rule = this.settings.rules[element.name].conditionRemote;
-	if (rule.condition && jQuery.isFunction(rule.condition) && !
-	rule.condition.call(this,element)) return "dependency-mismatch";
-	return jQuery.validator.methods.remote.apply(this, arguments);
+jQuery.validator.addMethod("conditionRemote", function (value, element) {
+    var rule = this.settings.rules[element.name].conditionRemote;
+    if (rule.condition && jQuery.isFunction(rule.condition) && !
+            rule.condition.call(this, element)) return "dependency-mismatch";
+    return jQuery.validator.methods.remote.apply(this, arguments);
 }, jQuery.validator.messages.remote);
 
-jQuery.validator.addMethod("submitRemote", function(value, element, param) {
-	if ( this.optional(element) )
-		return "dependency-mismatch";
+jQuery.validator.addMethod("submitRemote", function (value, element, param) {
+    if (this.optional(element))
+        return "dependency-mismatch";
 
-	var previous = this.previousValue(element);
+    var previous = this.previousValue(element);
 
-	if (!this.settings.messages[element.name] )
-		this.settings.messages[element.name] = {};
-	previous.originalMessage = this.settings.messages[element.name].submitRemote;
-	this.settings.messages[element.name].submitRemote = previous.message;
+    if (!this.settings.messages[element.name])
+        this.settings.messages[element.name] = {};
+    previous.originalMessage = this.settings.messages[element.name].submitRemote;
+    this.settings.messages[element.name].submitRemote = previous.message;
 
-	param = typeof param == "string" && {url:param} || param; 
+    param = typeof param == "string" && {url: param} || param;
 
 
-		var validator = this;
-		this.startRequest(element);
-		var data = {};
-		data[element.name] = value;
-		$.ajax($.extend(true, {
-			url: param,
-			mode: "abort",
-			port: "validate" + element.name,
-			dataType: "json",
-			data: data,
-			success: function(response) {
-				validator.settings.messages[element.name].remote = previous.originalMessage;
-				var valid = response.response === 'success';
-				if ( valid ) {
-					var submitted = validator.formSubmitted;
-					validator.prepareElement(element);
-					validator.formSubmitted = submitted;
-					validator.successList.push(element);
-					validator.showErrors();
-				} else {
-					var errors = {};
-					var message = (previous.message = response.message || validator.defaultMessage( element, "remote" ));
-					errors[element.name] = $.isFunction(message) ? message(value) : message;
-					validator.showErrors(errors);
-				}
-				previous.valid = valid;
-				validator.stopRequest(element, valid);
-			}
-		}, param));
-				
-			
-			return previous.valid;
+    var validator = this;
+    this.startRequest(element);
+    var data = {};
+    data[element.name] = value;
+    $.ajax($.extend(true, {
+        url: param,
+        mode: "abort",
+        port: "validate" + element.name,
+        dataType: "json",
+        data: data,
+        success: function (response) {
+            validator.settings.messages[element.name].remote = previous.originalMessage;
+            var valid = response.response === 'success';
+            if (valid) {
+                var submitted = validator.formSubmitted;
+                validator.prepareElement(element);
+                validator.formSubmitted = submitted;
+                validator.successList.push(element);
+                validator.showErrors();
+            } else {
+                var errors = {};
+                var message = (previous.message = response.message || validator.defaultMessage(element, "remote"));
+                errors[element.name] = $.isFunction(message) ? message(value) : message;
+                validator.showErrors(errors);
+            }
+            previous.valid = valid;
+            validator.stopRequest(element, valid);
+        }
+    }, param));
+
+
+    return previous.valid;
 });
 
 // http://docs.jquery.com/Plugins/Validation/Methods/remote
-		
 
-(function() {
+
+(function () {
 
     function stripHtml(value) {
         // remove html tags and space chars
         return value.replace(/<.[^<>]*?>/g, ' ')
-        .replace(/&nbsp;|&#160;/gi, ' ')
-        // remove numbers and punctuation
-        .replace(/[0-9.(),;:!?%#$'"_+=\/-]*/g, '');
+            .replace(/&nbsp;|&#160;/gi, ' ')
+            // remove numbers and punctuation
+            .replace(/[0-9.(),;:!?%#$'"_+=\/-]*/g, '');
     }
-    jQuery.validator.addMethod("maxWords", function(value, element, params) {
+
+    jQuery.validator.addMethod("maxWords", function (value, element, params) {
         return this.optional(element)
-        || stripHtml(value).match(/\b\w+\b/g).length < params;
+            || stripHtml(value).match(/\b\w+\b/g).length < params;
     }, jQuery.validator.format("Please enter {0} words or less."));
 
-    jQuery.validator.addMethod("minWords", function(value, element, params) {
+    jQuery.validator.addMethod("minWords", function (value, element, params) {
         return this.optional(element)
-        || stripHtml(value).match(/\b\w+\b/g).length >= params;
+            || stripHtml(value).match(/\b\w+\b/g).length >= params;
     }, jQuery.validator.format("Please enter at least {0} words."));
 
-    jQuery.validator.addMethod("rangeWords", function(value, element, params) {
+    jQuery.validator.addMethod("rangeWords", function (value, element, params) {
         return this.optional(element)
-        || stripHtml(value).match(/\b\w+\b/g).length >= params[0]
-        && value.match(/bw+b/g).length < params[1];
+            || stripHtml(value).match(/\b\w+\b/g).length >= params[0]
+            && value.match(/bw+b/g).length < params[1];
     }, jQuery.validator.format("Please enter between {0} and {1} words."));
 })();
 
-jQuery.validator.addMethod("letterswithbasicpunc", function(value, element) {
+jQuery.validator.addMethod("letterswithbasicpunc", function (value, element) {
     return this.optional(element) || /^[a-z-.,()'\"\s]+$/i.test(value);
 }, "Letters or punctuation only please");
 
 
-jQuery.validator.addMethod("alphanumericwithbasicpuncspaces", function(value,
-    element) {
+jQuery.validator.addMethod("alphanumericwithbasicpuncspaces", function (value,
+                                                                        element) {
     //return this.optional(element) || /^[\w-.,()\/'\"\s]+$/i.test(value);
-	return this.optional(element) || !(/^[~`!@#^*+{}:;?|[]]$/i.test(value));
+    return this.optional(element) || !(/^[~`!@#^*+{}:;?|[]]$/i.test(value));
 }, "Please Letters, numbers, spaces or some special chars like .,-,(,) only ");
 
 jQuery.validator
-    .addMethod("letterswithbasicspecialchars", function(value, element) {
+    .addMethod("letterswithbasicspecialchars", function (value, element) {
         return this.optional(element)
-        || /^[\w-.,()\/%'\"\s]+$/i.test(value);
-    },
-    "Please Letters, numbers, spaces or some special chars like .,-,%,(,) only ");
-	
-	jQuery.validator
-    .addMethod("letterswithbasicspecialchars", function(value, element) {
-        return this.optional(element)
-        || /^[\w-.,()\/%'\"\s]+$/i.test(value);
+            || /^[\w-.,()\/%'\"\s]+$/i.test(value);
     },
     "Please Letters, numbers, spaces or some special chars like .,-,%,(,) only ");
 
 jQuery.validator
-    .addMethod("unicodechars", function(value, element) {
+    .addMethod("letterswithbasicspecialchars", function (value, element) {
         return this.optional(element)
-        || /^([a-zA-Z_\u00A1-\uFFFF ])*$/i.test(value);
+            || /^[\w-.,()\/%'\"\s]+$/i.test(value);
+    },
+    "Please Letters, numbers, spaces or some special chars like .,-,%,(,) only ");
+
+jQuery.validator
+    .addMethod("unicodechars", function (value, element) {
+        return this.optional(element)
+            || /^([a-zA-Z_\u00A1-\uFFFF ])*$/i.test(value);
     },
     "Please unicode chars like .,-,%,(,) only ");
 
- jQuery.validator.addMethod("greaterDate",function(value, element, params) {
-        
-		if ($(params).val()){
-			var closedDate = new Date(value);
-			var openDate= new Date($(params).val());
-			return closedDate > openDate;
-		}
-        return true;
+jQuery.validator.addMethod("greaterDate", function (value, element, params) {
 
-    }, "");
+    if ($(params).val()) {
+        var closedDate = new Date(value);
+        var openDate = new Date($(params).val());
+        return closedDate > openDate;
+    }
+    return true;
 
-jQuery.validator.addMethod("alphanumeric", function(value, element) {
+}, "");
+
+jQuery.validator.addMethod("alphanumeric", function (value, element) {
     return this.optional(element) || /^[\w\s]+$/i.test(value);
 }, "Letters, numbers, spaces or underscores only please");
 
-jQuery.validator.addMethod("lettersdigitsonly", function(value, element) {
+jQuery.validator.addMethod("lettersdigitsonly", function (value, element) {
     return this.optional(element) || /^[a-z\d]+$/i.test(value);
 }, "Letters and digits only please");
 
-jQuery.validator.addMethod("lettersonly", function(value, element) {
+jQuery.validator.addMethod("lettersonly", function (value, element) {
     return this.optional(element) || /^[a-z]+$/i.test(value);
 }, "Letters only please");
 
-jQuery.validator.addMethod("decimals", function(value, element) {
-	return this.optional(element) || /^-?[0-9]{0,3}(\.[0-9]{1,2})?$|^-?(999)(\.[0]{1,2})?$/i.test(value);
+jQuery.validator.addMethod("decimals", function (value, element) {
+    return this.optional(element) || /^-?[0-9]{0,3}(\.[0-9]{1,2})?$|^-?(999)(\.[0]{1,2})?$/i.test(value);
 }, "Please enter digits only and 3 digits before and 2 after decimal point are allowed.");
 
-jQuery.validator.addMethod("nowhitespace", function(value, element) {
+jQuery.validator.addMethod("nowhitespace", function (value, element) {
     return this.optional(element) || /^\S+$/i.test(value);
 }, "No white space please");
 
-jQuery.validator.addMethod("nostartwhitespace", function(value, element) {
+jQuery.validator.addMethod("nostartwhitespace", function (value, element) {
     return this.optional(element) || /^\S+/i.test(value);
 }, "Can not start with whitespace");
 
-jQuery.validator.addMethod("ziprange", function(value, element) {
+jQuery.validator.addMethod("ziprange", function (value, element) {
     return this.optional(element) || /^90[2-5]\d\{2}-\d{4}$/.test(value);
 }, "Your ZIP-code must be in the range 902xx-xxxx to 905-xx-xxxx");
 
-jQuery.validator.addMethod("firstletteralphabet", function(value, element) {
+jQuery.validator.addMethod("firstletteralphabet", function (value, element) {
     return this.optional(element) || /^[a-z]+$/i.test(value.charAt(0));
 }, "The first character must be alphabetical");
 
-jQuery.validator.addMethod("notequalto", function(value, element, param) {
+jQuery.validator.addMethod("notequalto", function (value, element, param) {
     return value != $(param).val();
 }, "Please enter a different value to above");
 
 // param[0] : id of the element to compare
 // param[1] : Name of the element to compare
-jQuery.validator.addMethod("lessthanequal", function(value, element, params) {
+jQuery.validator.addMethod("lessthanequal", function (value, element, params) {
     if ($(params[0]).val())
         return value <= $(params[0]).val();
     return true;
@@ -282,62 +282,60 @@ jQuery.validator.addMethod("lessthanequal", function(value, element, params) {
 // param[0] : id of the element to compare
 // param[1] : Name of the element to compare
 jQuery.validator.addMethod("greaterthanequal",
-    function(value, element, params) {
+    function (value, element, params) {
         if ($(params[0]).val())
             return value >= $(params[0]).val();
         return true;
 
     }, "");
 
-jQuery.validator.addMethod("unique", function(value, element, param) {
-var flag = true;
-jQuery("input."+param).each(function(){
+jQuery.validator.addMethod("unique", function (value, element, param) {
+    var flag = true;
+    jQuery("input." + param).each(function () {
 
-    if( jQuery(this).attr("name") != jQuery(element).attr("name") )
-    {
-        var thisVal = jQuery(this).val();
-        thisVal = jQuery.trim(thisVal);
-        var values = value.toLowerCase();
-        values = jQuery.trim(values);
-        if( thisVal.toLowerCase() == values.toLowerCase() )
-        {
-            flag = false;
+        if (jQuery(this).attr("name") != jQuery(element).attr("name")) {
+            var thisVal = jQuery(this).val();
+            thisVal = jQuery.trim(thisVal);
+            var values = value.toLowerCase();
+            values = jQuery.trim(values);
+            if (thisVal.toLowerCase() == values.toLowerCase()) {
+                flag = false;
+            }
         }
-    }
 
-});
-return flag;
+    });
+    return flag;
 }, "");
 
-jQuery.validator.addMethod("password", function(value, element, param) {
+jQuery.validator.addMethod("password", function (value, element, param) {
     return this.optional(element) || /[A-Z]+/.test(value) && /\d+/.test(value);
 });
 
-jQuery.validator.addMethod("notOnlyDigits", function(value, element) {
+jQuery.validator.addMethod("notOnlyDigits", function (value, element) {
     return this.optional(element) || !(/^\d+$/.test(value));
 }, "Only Digits not allowed.");
 
 /**
-         * Return true, if the value is a valid date, also making this formal check
-         * dd/mm/yyyy.
-         *
-         * @example jQuery.validator.methods.date("01/01/1900")
-         * @result true
-         *
-         * @example jQuery.validator.methods.date("01/13/1990")
-         * @result false
-         *
-         * @example jQuery.validator.methods.date("01.01.1900")
-         * @result false
-         *
-         * @example <input name="pippo" class="{dateITA:true}" />
-         * @desc Declares an optional input element whose value must be a valid date.
-         *
-         * @name jQuery.validator.methods.dateITA
-         * @type Boolean
-         * @cat Plugins/Validate/Methods
-         */
-jQuery.validator.addMethod("dateITA", function(value, element) {
+ * Return true, if the value is a valid date, also making this formal check
+ * dd/mm/yyyy.
+ *
+ * @example jQuery.validator.methods.date("01/01/1900")
+ * @result true
+ *
+ * @example jQuery.validator.methods.date("01/13/1990")
+ * @result false
+ *
+ * @example jQuery.validator.methods.date("01.01.1900")
+ * @result false
+ *
+ * @example <input name="pippo" class="{dateITA:true}" />
+ * @desc Declares an optional input element whose value must be a valid date.
+ *
+ * @name jQuery.validator.methods.dateITA
+ * @type Boolean
+ * @cat Plugins/Validate/Methods
+ */
+jQuery.validator.addMethod("dateITA", function (value, element) {
     var check = false;
     var re = /^\d{1,2}\/\d{1,2}\/\d{4}$/
     if (re.test(value)) {
@@ -356,87 +354,87 @@ jQuery.validator.addMethod("dateITA", function(value, element) {
     return this.optional(element) || check;
 }, "Please enter a correct date");
 
-jQuery.validator.addMethod("time", function(value, element) {
+jQuery.validator.addMethod("time", function (value, element) {
     return this.optional(element)
-    || /^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$/i.test(value);
+        || /^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$/i.test(value);
 }, "Please enter a valid time, between 00:00 and 23:59");
 
 
-jQuery.validator.addMethod("phone", function(value, element) {
+jQuery.validator.addMethod("phone", function (value, element) {
     return this.optional(element) || (/^(\+)?\d+$/.test(value));
 }, "Please enter valid phone number");
 
 // TODO check if value starts with <, otherwise don't try stripping anything
 jQuery.validator.addMethod("strippedminlength",
-    function(value, element, param) {
+    function (value, element, param) {
         return jQuery(value).text().length >= param;
     }, jQuery.validator.format("Please enter at least {0} characters"));
 
 // same as email, but TLD is optional
 jQuery.validator
     .addMethod(
-        "email2",
-        function(value, element, param) {
-            return this.optional(element)
+    "email2",
+    function (value, element, param) {
+        return this.optional(element)
             || /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)*(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?$/i
-            .test(value);
-        }, jQuery.validator.messages.email);
+                .test(value);
+    }, jQuery.validator.messages.email);
 
 // same as url, but TLD is optional
 jQuery.validator
     .addMethod(
-        "url2",
-        function(value, element, param) {
-            return this.optional(element)
+    "url2",
+    function (value, element, param) {
+        return this.optional(element)
             || /^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)*(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i
-            .test(value);
-        }, jQuery.validator.messages.url);
+                .test(value);
+    }, jQuery.validator.messages.url);
 
-jQuery.validator.addMethod("datelessthanequaltoday", function(value, element) {
+jQuery.validator.addMethod("datelessthanequaltoday", function (value, element) {
     var choseDate = getDateFromFormat(value, "yyyy-MM-dd");
     return value ? choseDate <= new Date() : true;
 }, "");
 
-jQuery.validator.addMethod("required_group", function(value, element) {
+jQuery.validator.addMethod("required_group", function (value, element) {
     return $("input.required_group:filled").length;
 }, "Please fill out at least one of these fields.");
 
-jQuery.validator.addMethod("required_select_group", function(value, element) {
+jQuery.validator.addMethod("required_select_group", function (value, element) {
     return $("select.required_select_group option").length;
 }, "Please select at least one option for these fields.");
 
-jQuery.validator.addMethod("date", function(value, element, param) {
-    return this.optional(element) || getDateFromFormat(value,param);
+jQuery.validator.addMethod("date", function (value, element, param) {
+    return this.optional(element) || getDateFromFormat(value, param);
 });
 
-jQuery.validator.addMethod("custome_regex", function(value, element, params) {
-	
+jQuery.validator.addMethod("custome_regex", function (value, element, params) {
+
     params[0] = (params[0] == '') ? new RegExp(params[0]) : params[0];
-	
+
     return this.optional(element) || params[0].test(value);
 });
 
-jQuery.validator.addMethod("number", function(value, element, param) {
+jQuery.validator.addMethod("number", function (value, element, param) {
     return this.optional(element) || dhis2.validation.isNumber(value);
 });
 
-jQuery.validator.addMethod("integer", function(value, element, param) {
+jQuery.validator.addMethod("integer", function (value, element, param) {
     return this.optional(element) || dhis2.validation.isInt(value);
 });
 
-jQuery.validator.addMethod("positive_integer", function(value, element, param) {
+jQuery.validator.addMethod("positive_integer", function (value, element, param) {
     return this.optional(element) || dhis2.validation.isPositiveInt(value);
 });
 
-jQuery.validator.addMethod("negative_integer", function(value, element, param) {
+jQuery.validator.addMethod("negative_integer", function (value, element, param) {
     return this.optional(element) || dhis2.validation.isNegativeInt(value);
 });
 
-jQuery.validator.addMethod("zero_positive_int", function(value, element, param) {
+jQuery.validator.addMethod("zero_positive_int", function (value, element, param) {
     return this.optional(element) || dhis2.validation.isZeroOrPositiveInt(value);
 });
 
-jQuery.validator.addMethod("coordinate", function(value, element, param) {
+jQuery.validator.addMethod("coordinate", function (value, element, param) {
     return this.optional(element) || dhis2.validation.isCoordinate(value);
 });
 
@@ -497,10 +495,10 @@ function getDateFromFormat(val, format) {
             month = 0;
             var names = (token == "MMM" ? (Date.monthNames
                 .concat(Date.monthAbbreviations)) : Date.monthAbbreviations);
-            for ( var i = 0; i < names.length; i++) {
+            for (var i = 0; i < names.length; i++) {
                 var month_name = names[i];
                 if (val.substring(i_val, i_val + month_name.length)
-                    .toLowerCase() == month_name.toLowerCase()) {
+                        .toLowerCase() == month_name.toLowerCase()) {
                     month = (i % 12) + 1;
                     i_val += month_name.length;
                     break;
@@ -511,10 +509,10 @@ function getDateFromFormat(val, format) {
             }
         } else if (token == "EE" || token == "E") {
             var names = (token == "EE" ? Date.dayNames : Date.dayAbbreviations);
-            for ( var i = 0; i < names.length; i++) {
+            for (var i = 0; i < names.length; i++) {
                 var day_name = names[i];
                 if (val.substring(i_val, i_val + day_name.length).toLowerCase() == day_name
-                    .toLowerCase()) {
+                        .toLowerCase()) {
                     i_val += day_name.length;
                     break;
                 }
@@ -621,17 +619,17 @@ function getDateFromFormat(val, format) {
 //Utility functions for parsing in getDateFromFormat()
 //------------------------------------------------------------------
 function isInteger(val) {
-    var digits="1234567890";
-    for (var i=0; i < val.length; i++) {
-        if (digits.indexOf(val.charAt(i))==-1) {
+    var digits = "1234567890";
+    for (var i = 0; i < val.length; i++) {
+        if (digits.indexOf(val.charAt(i)) == -1) {
             return false;
         }
     }
     return true;
 }
-function getInt(str,i,minlength,maxlength) {
-    for (var x=maxlength; x>=minlength; x--) {
-        var token=str.substring(i,i+x);
+function getInt(str, i, minlength, maxlength) {
+    for (var x = maxlength; x >= minlength; x--) {
+        var token = str.substring(i, i + x);
         if (token.length < minlength) {
             return null;
         }
@@ -642,15 +640,15 @@ function getInt(str,i,minlength,maxlength) {
     return null;
 }
 
-function validatorFormat( text ) // Custom code
+function validatorFormat(text) // Custom code
 {
-    return $.validator.format( text );
+    return $.validator.format(text);
 }
 
-jQuery( document ).ready( function() { // Custom code
-	
-	if ( typeof( validationMessage ) !== "undefined"  ) // From messages.vm
-	{
-		$.validator.setMessages( validationMessage );
-	}
-} );
+jQuery(document).ready(function () { // Custom code
+
+    if (typeof( validationMessage ) !== "undefined") // From messages.vm
+    {
+        $.validator.setMessages(validationMessage);
+    }
+});
