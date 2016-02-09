@@ -1,0 +1,195 @@
+{
+  "headers": [
+    {
+      "name": "Ff8x7tCAgRq",
+      "column": "Facility Type",
+      "type": "java.lang.String",
+      "hidden": false,
+      "meta": true
+    },
+    {
+      "name": "pe",
+      "column": "Period",
+      "type": "java.lang.String",
+      "hidden": false,
+      "meta": true
+    },
+    {
+      "name": "value",
+      "column": "Value",
+      "type": "java.lang.Double",
+      "hidden": false,
+      "meta": false
+    }
+  ],
+  "metaData": {
+    "Ff8x7tCAgRq": [
+      "erJTmh496gJ",
+      "nYkU5JbrOqg"
+    ],
+    "names": {
+      "nlyO8gj4uHd": "ANC new",
+      "Ff8x7tCAgRq": "Facility Type",
+      "201507": "July 2015",
+      "201506": "June 2015",
+      "201509": "September 2015",
+      "ou": "Organisation unit",
+      "201508": "August 2015",
+      "201503": "March 2015",
+      "201502": "February 2015",
+      "201505": "May 2015",
+      "201504": "April 2015",
+      "201510": "October 2015",
+      "201501": "January 2015",
+      "201512": "December 2015",
+      "201511": "November 2015",
+      "erJTmh496gJ": "PHC",
+      "NMyXnDEhScT": "PHC  Bhadoti",
+      "dx": "Data",
+      "pe": "Period",
+      "wgLXMRheSyB": "default",
+      "nYkU5JbrOqg": "Subcentre"
+    },
+    "dx": ["nlyO8gj4uHd"],
+    "pe": [
+      "201501",
+      "201502",
+      "201503",
+      "201504",
+      "201505",
+      "201506",
+      "201507",
+      "201508",
+      "201509",
+      "201510",
+      "201511",
+      "201512"
+    ],
+    "ou": ["NMyXnDEhScT"],
+    "co": ["wgLXMRheSyB"]
+  },
+  "width": 3,
+  "rows": [
+    [
+      "erJTmh496gJ",
+      "201512",
+      "14.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "201510",
+      "10.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "201511",
+      "10.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201510",
+      "33.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201512",
+      "11.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201511",
+      "13.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "201501",
+      "17.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "201502",
+      "11.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201501",
+      "16.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201503",
+      "11.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201502",
+      "13.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "201505",
+      "18.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201505",
+      "6.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "201506",
+      "11.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201504",
+      "36.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "201503",
+      "30.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201507",
+      "23.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201506",
+      "22.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "201504",
+      "15.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "201509",
+      "2.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201509",
+      "11.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201508",
+      "7.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "201507",
+      "15.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "201508",
+      "12.0"
+    ]
+  ],
+  "height": 24
+}

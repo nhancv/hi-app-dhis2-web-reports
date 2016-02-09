@@ -1,0 +1,123 @@
+{
+  "headers": [
+    {
+      "name": "Ff8x7tCAgRq",
+      "column": "Facility Type",
+      "type": "java.lang.String",
+      "hidden": false,
+      "meta": true
+    },
+    {
+      "name": "pe",
+      "column": "Period",
+      "type": "java.lang.String",
+      "hidden": false,
+      "meta": true
+    },
+    {
+      "name": "value",
+      "column": "Value",
+      "type": "java.lang.Double",
+      "hidden": false,
+      "meta": false
+    }
+  ],
+  "metaData": {
+    "Ff8x7tCAgRq": [
+      "erJTmh496gJ",
+      "nYkU5JbrOqg"
+    ],
+    "names": {
+      "nlyO8gj4uHd": "ANC new",
+      "Ff8x7tCAgRq": "Facility Type",
+      "ou": "Organisation unit",
+      "201411": "November 2014",
+      "201510": "October 2015",
+      "201410": "October 2014",
+      "201512": "December 2015",
+      "201412": "December 2014",
+      "201511": "November 2015",
+      "erJTmh496gJ": "PHC",
+      "NMyXnDEhScT": "PHC  Bhadoti",
+      "dx": "Data",
+      "pe": "Period",
+      "wgLXMRheSyB": "default",
+      "nYkU5JbrOqg": "Subcentre"
+    },
+    "dx": ["nlyO8gj4uHd"],
+    "pe": [
+      "201410",
+      "201411",
+      "201412",
+      "201510",
+      "201511",
+      "201512"
+    ],
+    "ou": ["NMyXnDEhScT"],
+    "co": ["wgLXMRheSyB"]
+  },
+  "width": 3,
+  "rows": [
+    [
+      "erJTmh496gJ",
+      "201410",
+      "2.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201411",
+      "14.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201510",
+      "33.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201410",
+      "10.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201512",
+      "11.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "201512",
+      "14.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201412",
+      "13.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "201511",
+      "13.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "201411",
+      "3.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "201510",
+      "10.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "201412",
+      "15.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "201511",
+      "10.0"
+    ]
+  ],
+  "height": 12
+}

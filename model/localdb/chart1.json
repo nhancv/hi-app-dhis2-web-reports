@@ -1,0 +1,99 @@
+{
+  "headers": [
+    {
+      "name": "Ff8x7tCAgRq",
+      "column": "Facility Type",
+      "type": "java.lang.String",
+      "hidden": false,
+      "meta": true
+    },
+    {
+      "name": "pe",
+      "column": "Period",
+      "type": "java.lang.String",
+      "hidden": false,
+      "meta": true
+    },
+    {
+      "name": "value",
+      "column": "Value",
+      "type": "java.lang.Double",
+      "hidden": false,
+      "meta": false
+    }
+  ],
+  "metaData": {
+    "Ff8x7tCAgRq": [
+      "erJTmh496gJ",
+      "nYkU5JbrOqg"
+    ],
+    "names": {
+      "nlyO8gj4uHd": "ANC new",
+      "Ff8x7tCAgRq": "Facility Type",
+      "ou": "Organisation unit",
+      "2015Q4": "Oct to Dec 2015",
+      "2015Q3": "Jul to Sep 2015",
+      "2015Q2": "Apr to Jun 2015",
+      "2015Q1": "Jan to Mar 2015",
+      "erJTmh496gJ": "PHC",
+      "NMyXnDEhScT": "PHC  Bhadoti",
+      "dx": "Data",
+      "pe": "Period",
+      "wgLXMRheSyB": "default",
+      "nYkU5JbrOqg": "Subcentre"
+    },
+    "dx": ["nlyO8gj4uHd"],
+    "pe": [
+      "2015Q1",
+      "2015Q2",
+      "2015Q3",
+      "2015Q4"
+    ],
+    "ou": ["NMyXnDEhScT"],
+    "co": ["wgLXMRheSyB"]
+  },
+  "width": 3,
+  "rows": [
+    [
+      "nYkU5JbrOqg",
+      "2015Q2",
+      "64.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "2015Q2",
+      "44.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "2015Q1",
+      "40.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "2015Q3",
+      "29.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "2015Q4",
+      "57.0"
+    ],
+    [
+      "nYkU5JbrOqg",
+      "2015Q3",
+      "41.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "2015Q1",
+      "58.0"
+    ],
+    [
+      "erJTmh496gJ",
+      "2015Q4",
+      "34.0"
+    ]
+  ],
+  "height": 8
+}
