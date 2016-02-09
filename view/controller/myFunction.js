@@ -1,4 +1,3 @@
-var facility = "Ff8x7tCAgRq";
 function validateDashboard() {
 
     //orgUnit Related
@@ -41,16 +40,14 @@ function validateDashboard() {
 }
 
 function myFunction(tempOrgUnitUid, tempMonthUid, tempYearUid) {
-
     createChart1(tempOrgUnitUid, tempMonthUid, tempYearUid);
     createChart2(tempOrgUnitUid, tempMonthUid, tempYearUid);
-
-
+    createChart3(tempOrgUnitUid, tempMonthUid, tempYearUid);
 }
 
 function createChart1(tempOrgUnitUid, tempMonthUid, tempYearUid) {
     var count = tempMonthUid;
-    $.getJSON("../../../model/localdb/chart1.json", function (json) {
+    $.getJSON(apiChart1, function (json) {
         var datarows = json.rows;
         var peArr = json.metaData.pe;
         var facilityArr = json.metaData[facility];
@@ -70,7 +67,7 @@ function createChart1(tempOrgUnitUid, tempMonthUid, tempYearUid) {
         var xAxisCategoriesArr = [];
         for (var i = 0; i < peArr.length; i++) {
             xAxisCategoriesArr.push(json.metaData.names[peArr[i]])
-            if(xAxisCategoriesArr.length >=count ) break;
+            if (xAxisCategoriesArr.length >= count) break;
         }
         var dataSeriesArrO = [];
 
@@ -80,7 +77,7 @@ function createChart1(tempOrgUnitUid, tempMonthUid, tempYearUid) {
             for (var j = 0; j < dataResult.length; j++) {
                 if (dataResult[j][0] == facilityArr[i]) {
                     data.push(Number(dataResult[j][2]));
-                    if(data.length >=count ) break;
+                    if (data.length >= count) break;
                 }
             }
             var seriO = {
@@ -95,8 +92,8 @@ function createChart1(tempOrgUnitUid, tempMonthUid, tempYearUid) {
 
 function createChart2(tempOrgUnitUid, tempMonthUid, tempYearUid) {
 
-    var count = tempMonthUid*3;
-    $.getJSON("../../../model/localdb/chart2.json", function (json) {
+    var count = tempMonthUid * 3;
+    $.getJSON(apiChart2, function (json) {
         var datarows = json.rows;
         var peArr = json.metaData.pe;
         var facilityArr = json.metaData[facility];
@@ -116,7 +113,7 @@ function createChart2(tempOrgUnitUid, tempMonthUid, tempYearUid) {
         var xAxisCategoriesArr = [];
         for (var i = 0; i < peArr.length; i++) {
             xAxisCategoriesArr.push(json.metaData.names[peArr[i]])
-            if(xAxisCategoriesArr.length >=count ) break;
+            if (xAxisCategoriesArr.length >= count) break;
         }
         var dataSeriesArrO = [];
 
@@ -126,7 +123,7 @@ function createChart2(tempOrgUnitUid, tempMonthUid, tempYearUid) {
             for (var j = 0; j < dataResult.length; j++) {
                 if (dataResult[j][0] == facilityArr[i]) {
                     data.push(Number(dataResult[j][2]));
-                    if(data.length >=count ) break;
+                    if (data.length >= count) break;
                 }
             }
             var seriO = {
@@ -136,6 +133,59 @@ function createChart2(tempOrgUnitUid, tempMonthUid, tempYearUid) {
             dataSeriesArrO.push(seriO);
         }
         createLineCharts("chart2", "char2", "", xAxisCategoriesArr, dataSeriesArrO);
+    });
+}
+
+function createChart3(tempOrgUnitUid, tempMonthUid, tempYearUid) {
+    var count = tempMonthUid;
+    $.getJSON(apiChart3, function (json) {
+        var datarows = json.rows;
+        var peArr = [];
+        var facilityArr = json.metaData[facility];
+        var dataResult = [];
+
+        //swap alternate pe array
+        var mid = json.metaData.pe.length / 2;
+        for (var i = 0; i < mid; i++) {
+            peArr.push(json.metaData.pe[i], json.metaData.pe[i + mid]);
+        }
+        count = peArr.length;
+
+        //sort
+        for (var i = 0; i < peArr.length; i++) {
+            var minPe = peArr[i];
+            for (var k = 0; k < facilityArr.length; k++) {
+                var minF = facilityArr[k];
+                for (var j = 0; j < datarows.length; j++) {
+                    if (datarows[j][0] == minF && datarows[j][1] == minPe) {
+                        dataResult.push(datarows[j]);
+                    }
+                }
+            }
+        }
+        var xAxisCategoriesArr = [];
+        for (var i = 0; i < peArr.length; i++) {
+            xAxisCategoriesArr.push(json.metaData.names[peArr[i]])
+            if (xAxisCategoriesArr.length >= count) break;
+        }
+        var dataSeriesArrO = [];
+
+        for (var i = 0; i < facilityArr.length; i++) {
+            var name = json.metaData.names[facilityArr[i]];
+            var data = [];
+            for (var j = 0; j < dataResult.length; j++) {
+                if (dataResult[j][0] == facilityArr[i]) {
+                    data.push(Number(dataResult[j][2]));
+                    if (data.length >= count) break;
+                }
+            }
+            var seriO = {
+                name: name,
+                data: data
+            }
+            dataSeriesArrO.push(seriO);
+        }
+        createBarCharts("chart3", "chart3", "", xAxisCategoriesArr, dataSeriesArrO);
     });
 }
 

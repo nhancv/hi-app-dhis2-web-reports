@@ -243,40 +243,43 @@
 
     <script src="../../js/highcharts.js"></script>
     <script src="../../js/exporting.js"></script>
-    <script src="../../controller/myFunction.js"></script>
     <script>
-        $.getJSON("../../../model/localdb/orgUnits.json", function (data) {
-            $.each(data.organisationUnits, function (index, item) {
-                $('#dropdown').append(
-                        $('<option></option>').val(item.id).html(item).text(item.name)
-                );
+        /*Declare global variable at here*/
+        var apiOrgUnits = "../../../model/localdb/orgUnits.json";
+        var apiChart1 = "../../../model/localdb/chart1.json";
+        var apiChart2 = "../../../model/localdb/chart2.json";
+        var apiChart3 = "../../../model/localdb/chart3.json";
+
+        var facility = "Ff8x7tCAgRq";
+
+        function initial() {
+
+            $("#dropdown").change(function () {
+                selectedText = $(this).find("option:selected").text();
+                orgUid = $(this).find("option:selected").val();
             });
-        });
-        $("#dropdown").change(function () {
-            selectedText = $(this).find("option:selected").text();
 
-            orgUid = $(this).find("option:selected").val();
-            // alert("Selected Text="+ selectedText);
+            $("#ddlMonth").change(function () {
+                selectedText_month = $(this).find("option:selected").text();
+            });
 
-            //   alert("Selected Text="+ orgUid);
-            console.log("ORGUID from dropdown--" + orgUid);
-            //getFilteredOrgUnitList();
+            $("#year").change(function () {
+                selectedText_yr = $(this).find("option:selected").text();
+            });
 
+            populateDropDownList("ddlMonth", "year");
+        }
 
-        });
+        function populateDropDownList(monthfield, yearfield) {
+            //get org data
+            $.getJSON(apiOrgUnits, function (data) {
+                $.each(data.organisationUnits, function (index, item) {
+                    $('#dropdown').append(
+                            $('<option></option>').val(item.id).html(item).text(item.name)
+                    );
+                });
+            });
 
-        $("#ddlMonth").change(function () {
-            selectedText_month = $(this).find("option:selected").text();
-
-        });
-
-        $("#year").change(function () {
-            selectedText_yr = $(this).find("option:selected").text();
-
-        });
-
-
-        function populatedropdown(monthfield, yearfield) {
             var monthtext = ['Select Quater', '1st quater', '2nd quater', '3rd quater', '4th quater'];
             var yeartext = ['Select Year', '2014', '2015'];
             var monthfield = document.getElementById(monthfield);
@@ -291,6 +294,9 @@
 
 
     </script>
+    <script src="../../controller/myFunction.js"></script>
+
+
 </head>
 <body>
 
@@ -336,7 +342,7 @@
 
 <script>
     $(function () {
-        populatedropdown("ddlMonth", "year");
+        initial();
     });
 </script>
 
