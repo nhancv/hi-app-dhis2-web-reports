@@ -11,6 +11,34 @@ function generateApiChart1(orgUnitID, year) {
     }
 }
 
+function generateApiChart2(orgUnitID, year) {
+    if (configDeploy == PRODUCTION) {
+        var quarterArr = ["01", "02", "03", "04","05","06","07","08","09","10","11","12"];
+        var peGen = "";
+        for (var i = 0; i < quarterArr.length; i++) {
+            peGen += (year + quarterArr[i]);
+            if (i < quarterArr.length - 1) peGen += ";";
+        }
+        apiChart2 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:nlyO8gj4uHd&displayProperty=NAME&outputIdScheme=ID";
+    } else {
+    }
+}
+
+function generateApiChart3(orgUnitID, year) {
+    if (configDeploy == PRODUCTION) {
+        var quarterArr = ["10","11","12"];
+        var peGen = "";
+        for (var i = 0; i < quarterArr.length; i++) {
+            peGen += (year + quarterArr[i])+ ";";
+        }
+        for (var i = 0; i < quarterArr.length; i++) {
+            peGen += ((Number(year)+1) + quarterArr[i]);
+            if (i < quarterArr.length - 1) peGen += ";";
+        }
+        apiChart3 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:nlyO8gj4uHd&displayProperty=NAME&outputIdScheme=ID";
+    } else {
+    }
+}
 
 function validateDashboard() {
 
@@ -50,6 +78,8 @@ function validateDashboard() {
         return;
     }
     generateApiChart1(tempOrgUnitUid, tempYearUid);
+    generateApiChart2(tempOrgUnitUid, tempYearUid);
+    generateApiChart3(tempOrgUnitUid, tempYearUid);
     myFunction(tempOrgUnitUid, tempMonthUid, tempYearUid);
 }
 
