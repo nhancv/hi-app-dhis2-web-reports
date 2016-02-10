@@ -285,7 +285,7 @@
                 });
             });
 
-            var monthtext = ['Select Quater', '1st quater', '2nd quater', '3rd quater', '4th quater'];
+            var monthtext = ['Select Quarter', '1st quarter', '2nd quarter', '3rd quarter', '4th quarter'];
             var yeartext = ['Select Year', '2014', '2015'];
             var monthfield = document.getElementById(monthfield);
             var yearfield = document.getElementById(yearfield);
@@ -320,6 +320,30 @@
         }
 
 
+
+
+        function generateApiChart2(orgUnitID, year) {
+            if (configDeploy == PRODUCTION) {
+                console.log(orgUnitID);
+                console.log(year);
+                var quarterArr = ["01", "02", "03", "04","05","06","07","08","09","10","11","12"];
+                var peGen = "";
+                for (var i = 0; i < quarterArr.length; i++) {
+                    peGen += (year + quarterArr[i]);
+                    if (i < quarterArr.length - 1) peGen += ";";
+                }
+                console.log(peGen);
+                console.log(apiChart1);
+                apiChart2 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:nlyO8gj4uHd&displayProperty=NAME&outputIdScheme=ID";
+                console.log(apiChart1);
+            } else {
+                console.log(configDeploy);
+            }
+        }
+
+
+
+
         function validateDashboard() {
 
             //orgUnit Related
@@ -327,8 +351,8 @@
             var tempOrgUnitUid = orgUnitList.options[orgUnitList.selectedIndex].value;
 
             // indicator related
-            var tempIndicatorList = document.getElementById('indicator');
-            var tempIndicatorUid = tempIndicatorList.options[tempIndicatorList.selectedIndex].value;
+           // var tempIndicatorList = document.getElementById('indicator');
+           // var tempIndicatorUid = tempIndicatorList.options[tempIndicatorList.selectedIndex].value;
 
             // month related
             var tempMonthList = document.getElementById('ddlMonth');
@@ -343,11 +367,6 @@
                 return;
             }
 
-            //else if (tempIndicatorUid == "base" || tempIndicatorUid == undefined) {
-            //    alert("Please select Indicator");
-            //    return;
-            //}
-
             else if (tempMonthUid == "Select Month" || tempMonthUid == undefined) {
                 alert("Please select Month");
                 return;
@@ -358,6 +377,8 @@
                 return;
             }
             generateApiChart1(tempOrgUnitUid, tempYearUid);
+            generateApiChart2(tempOrgUnitUid, tempYearUid);
+           // generateApiChart3(tempOrgUnitUid, tempYearUid);
             myFunction(tempOrgUnitUid, tempMonthUid, tempYearUid);
         }
 
@@ -600,12 +621,11 @@
 
             <select id="dropdown" style=" margin-left:10%">
                 <option selected value="base">Please Select OrgUnit</option>
-
             </select>
-            <select id="indicator">
+
+           <!-- <select id="indicator">
                 <option selected value="base">Please Select Indicator Group</option>
-
-            </select>
+            </select>-->
 
             <select name="two" class="select2" id="ddlMonth">
                 <option selected value="base"></option>
