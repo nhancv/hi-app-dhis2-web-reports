@@ -244,12 +244,19 @@
     <script src="js/exporting.js"></script>
     <script>
         /*Declare global variable at here*/
+        var TESTING = 0;
+        var PRODUCTION = 1;
+        /********************************/
+        var configDeploy = TESTING;
+        /********************************/
+
+        var facility = "Ff8x7tCAgRq";
+
         var apiOrgUnits = "../model/localdb/orgUnits.json";
         var apiChart1 = "../model/localdb/chart1.json";
         var apiChart2 = "../model/localdb/chart2.json";
         var apiChart3 = "../model/localdb/chart3.json";
 
-        var facility = "Ff8x7tCAgRq";
 
         function initial() {
 

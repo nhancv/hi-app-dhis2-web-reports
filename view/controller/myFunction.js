@@ -1,3 +1,23 @@
+function generateApiChart1(orgUnitID, year) {
+    if (configDeploy == PRODUCTION) {
+        console.log(orgUnitID);
+        console.log(year);
+        var quarterArr = ["Q1", "Q2", "Q3", "Q4"];
+        var peGen = "";
+        for (var i = 0; i < quarterArr.length; i++) {
+            peGen += (year + quarterArr[i]);
+            if (i < quarterArr.length - 1) peGen += ";";
+        }
+        console.log(peGen);
+        console.log(apiChart1);
+        apiChart1 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:nlyO8gj4uHd&displayProperty=NAME&outputIdScheme=ID";
+        console.log(apiChart1);
+    } else {
+        console.log(configDeploy);
+    }
+}
+
+
 function validateDashboard() {
 
     //orgUnit Related
@@ -35,7 +55,7 @@ function validateDashboard() {
         alert("Please select Year");
         return;
     }
-
+    generateApiChart1(tempOrgUnitUid, tempYearUid);
     myFunction(tempOrgUnitUid, tempMonthUid, tempYearUid);
 }
 
