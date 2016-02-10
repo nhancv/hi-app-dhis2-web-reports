@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<!--[if IE 7]>
+<html #if( $manifest ) manifest="$manifest" #end class="ie7"><![endif]-->
+<!--[if IE 8]>
+<html #if( $manifest ) manifest="$manifest" #end class="ie8"><![endif]-->
+<!--[if IE 9]>
+<html #if( $manifest ) manifest="$manifest" #end class="ie9"><![endif]-->
+<![if !IE]>
+<html #if( $manifest ) manifest="$manifest" #end><![endif]>
+<head>
+    <title>SCALE -Adv Dashboard</title>
+    <meta name="description" content="DHIS 2">
+    <meta name="keywords" content="DHIS 2">
+    <style>
+
+        .clearfix:after {
+            content: ".";
+            display: block;
+            font-size: 0;
+            line-height: 0;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+        .clearfix {
+            display: inline-block;
+        }
+
+        * html .clearfix {
+            height: 1%;
+        }
+
+        .clearfix {
+            display: block;
+        }
+
+        body {
+            margin: 0;
+            -webkit-text-size-adjust: 100%;
+            -moz-text-size-adjust: 100%;
+            padding: 10px 2%;
+            font: 14px/24px 'Open Sans', Helvetica, Arial, sans-serif;
+            color: #000;
+        }
+
+        #printing {
+            background: #FFF;
+            width: 1200px;
+            margin: 0 auto;
+            border: solid 0px #E7E7E7;
+            border-top: 5px solid #0088cc;
+            border-radius: 6px;
+            box-shadow: 0 0 3px rgba(0, 0, 0, 0.2), inset 0 4px 0 #ededed
+        }
+
+        #header {
+            padding: 30px 20px;
+            border-bottom: solid 1px #e0e0e0;
+            margin-bottom: 20px;
+            text-align: center;
+            font-family: 'Open Sans', sans-serif;
+        }
+
+        section {
+            padding: 0 20px 20px
+        }
+
+        button {
+            background-color: #36648B;
+            border: none;
+            color: white;
+            padding: 5px 15px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+
+        .classname {
+            display: block;
+            padding: 20px;
+            border: solid 2px #CCC;
+            text-align: center;
+        }
+
+        .demo select {
+            border: 2px !important;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: #0088cc;
+            width: 250px;
+            text-indent: 0.01px;
+            text-overflow: "";
+            color: #FFF;
+            border-radius: 15px;
+            padding: 5px;
+            box-shadow: inset 0 0 5px rgba(000, 000, 000, 0.5);
+        }
+
+        .demo select.balck {
+            background-color: #000;
+        }
+
+        .demo select.option3 {
+            border-radius: 10px 0;
+        }
+
+        #container2 {
+            clear: left;
+            float: left;
+            width: 100%;
+            overflow: hidden;
+            /*background: #ffa7a7;*/
+            /* column 2 background colour */
+        }
+
+        #container1 {
+            float: left;
+            width: 100%;
+            position: relative;
+            right: 50%;
+            /*background: #fff689;*/
+            /* column 1 background colour */
+        }
+
+        #col1 {
+            float: left;
+            width: 46%;
+            position: relative;
+            left: 52%;
+            overflow: hidden;
+        }
+
+        #col2 {
+            float: left;
+            width: 46%;
+            position: relative;
+            left: 56%;
+            overflow: hidden;
+        }
+
+        #footer {
+            clear: both;
+            float: left;
+            width: 100%;
+        }
+
+        #chart1, #chart2, #chart3 {
+            min-width: 310px;
+            height: 400px;
+        }
+    </style>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--<link type="text/css" rel="stylesheet"-->
+          <!--href="../../../dhis-web-commons/font-awesome/css/font-awesome.min.css?_rev=$!{buildRevision}"/>-->
+    <!--<link type="text/css" rel="stylesheet" media="screen"-->
+          <!--href="../../../dhis-web-commons/javascripts/jQuery/ui/css/redmond/jquery-ui.css?_rev=$!{buildRevision}"/>-->
+    <!--<link type="text/css" rel="stylesheet" media="screen,print"-->
+          <!--href="../../../dhis-web-commons/css/widgets.css?_rev=$!{buildRevision}"/>-->
+    <!--<link type="text/css" rel="stylesheet" media="print"-->
+          <!--href="../../../dhis-web-commons/css/print.css?_rev=$!{buildRevision}"/>-->
+    <!--<link type="text/css" rel="stylesheet" media="screen"-->
+          <!--href="../../../dhis-web-commons/css/menu.css?_rev=$!{buildRevision}"/>-->
+    <!--<link type="text/css" rel="stylesheet" media="screen"-->
+          <!--href="../../../dhis-web-commons/javascripts/jQuery/calendars/css/jquery.calendars.picker.css?_rev=$!{buildRevision}"/>-->
+
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/es5-shim.min.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/es5-sham.min.js?_rev=$!{buildRevision}"></script>-->
+
+    <!--<script type="text/javascript" src="../../../dhis-web-commons/javascripts/ext/ext-all.js"></script>-->
+
+    <script type="text/javascript"
+            src="../../../dhis-web-commons/javascripts/jQuery/jquery.min.js?_rev=$!{buildRevision}"></script>
+    <!--&lt;!&ndash;[if lte IE 8]>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/placeholders.jquery.min.js?_rev=$!{buildRevision}"></script>-->
+    <!--<![endif]&ndash;&gt;-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/jquery.utils.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/jquery.ext.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/jquery.metadata.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/jquery.tablesorter.min.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/jquery.upload-1.0.2.min.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/jquery.dhisAjaxSelect.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/ui/jquery-ui.min.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/ui/jquery.blockUI.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/jquery.validate.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/jquery.validate.ext.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/jquery.cookie.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/jquery.glob.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/jquery.date.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/jquery.tmpl.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/jquery.autogrow.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/jquery.fileupload.min.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/underscore.min.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/filesize.min.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/dhis2/dhis2.util.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/commons.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/commons.ajax.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript" src="../../../dhis-web-commons/javascripts/lists.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/periodType.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript" src="../../../dhis-web-commons/javascripts/date.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript" src="../../../dhis-web-commons/javascripts/json2.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/validationRules.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/dhis2/dhis2.array.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/dhis2/dhis2.select.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.min.js?_rev=$!{buildRevision}"></script>-->
+    <!--<script type="text/javascript"-->
+            <!--src="../../../dhis-web-commons/javascripts/jQuery/calendars/jquery.calendars.plus.min.js?_rev=$!{buildRevision}"></script>-->
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script>
+        /*Declare global variable at here*/
+        var apiOrgUnits = "../../../api/organisationUnitGroups/lBQUJ9K4wQK.json?fields=organisationUnits[id,name,shortName]";
+        var apiChart1 = "../../../api/analytics.json?dimension=Ff8x7tCAgRq:erJTmh496gJ;nYkU5JbrOqg&dimension=pe:2015Q1;2015Q2;2015Q3;2015Q4&filter=ou:NMyXnDEhScT;OU_GROUP-lBQUJ9K4wQK&filter=dx:nlyO8gj4uHd&displayProperty=NAME&outputIdScheme=ID";
+        var apiChart2 = "../../../api/analytics.json?dimension=Ff8x7tCAgRq:erJTmh496gJ;nYkU5JbrOqg&dimension=pe:201501;201502;201503;201504;201505;201506;201507;201508;201509;201510;201511;201512&filter=ou:NMyXnDEhScT;OU_GROUP-lBQUJ9K4wQK&filter=dx:nlyO8gj4uHd&displayProperty=NAME&outputIdScheme=ID";
+        var apiChart3 = "../../../api/analytics.json?dimension=Ff8x7tCAgRq:erJTmh496gJ;nYkU5JbrOqg&dimension=pe:201410;201411;201412;201510;201511;201512&filter=ou:NMyXnDEhScT;OU_GROUP-lBQUJ9K4wQK&filter=dx:nlyO8gj4uHd&displayProperty=NAME&outputIdScheme=ID";
+
+        var facility = "Ff8x7tCAgRq";
+
+        function initial() {
+
+            $("#dropdown").change(function () {
+                selectedText = $(this).find("option:selected").text();
+                orgUid = $(this).find("option:selected").val();
+            });
+
+            $("#ddlMonth").change(function () {
+                selectedText_month = $(this).find("option:selected").text();
+            });
+
+            $("#year").change(function () {
+                selectedText_yr = $(this).find("option:selected").text();
+            });
+
+            populateDropDownList("ddlMonth", "year");
+        }
+
+        function populateDropDownList(monthfield, yearfield) {
+            //get org data
+            $.getJSON(apiOrgUnits, function (data) {
+                $.each(data.organisationUnits, function (index, item) {
+                    $('#dropdown').append(
+                            $('<option></option>').val(item.id).html(item).text(item.name)
+                    );
+                });
+            });
+
+            var monthtext = ['Select Quater', '1st quater', '2nd quater', '3rd quater', '4th quater'];
+            var yeartext = ['Select Year', '2014', '2015'];
+            var monthfield = document.getElementById(monthfield);
+            var yearfield = document.getElementById(yearfield);
+            for (var m = 0; m <= 4; m++) {
+                monthfield.options[m] = new Option(monthtext[m], m)
+            }
+            for (var y = 0; y <= 2; y++) {
+                yearfield.options[y] = new Option(yeartext[y], yeartext[y]);
+            }
+        }
+
+    </script>
+    <script>
+        /*begin import function files*/
+        function validateDashboard() {
+
+            //orgUnit Related
+            var orgUnitList = document.getElementById('dropdown');
+            var tempOrgUnitUid = orgUnitList.options[orgUnitList.selectedIndex].value;
+
+            // indicator related
+            var tempIndicatorList = document.getElementById('indicator');
+            var tempIndicatorUid = tempIndicatorList.options[tempIndicatorList.selectedIndex].value;
+
+            // month related
+            var tempMonthList = document.getElementById('ddlMonth');
+            var tempMonthUid = tempMonthList.options[tempMonthList.selectedIndex].value;
+
+            // year related
+            var tempYearList = document.getElementById('year');
+            var tempYearUid = tempYearList.options[tempYearList.selectedIndex].value;
+
+            if (tempOrgUnitUid == "base" || tempOrgUnitUid == undefined) {
+                alert("Please select OrganisationUnit");
+                return;
+            }
+
+            //else if (tempIndicatorUid == "base" || tempIndicatorUid == undefined) {
+            //    alert("Please select Indicator");
+            //    return;
+            //}
+
+            else if (tempMonthUid == "Select Month" || tempMonthUid == undefined) {
+                alert("Please select Month");
+                return;
+            }
+
+            else if (tempYearUid == "Select Year" || tempYearUid == undefined) {
+                alert("Please select Year");
+                return;
+            }
+
+            myFunction(tempOrgUnitUid, tempMonthUid, tempYearUid);
+        }
+
+        function myFunction(tempOrgUnitUid, tempMonthUid, tempYearUid) {
+            createChart1(tempOrgUnitUid, tempMonthUid, tempYearUid);
+            createChart2(tempOrgUnitUid, tempMonthUid, tempYearUid);
+            createChart3(tempOrgUnitUid, tempMonthUid, tempYearUid);
+        }
+
+        function createChart1(tempOrgUnitUid, tempMonthUid, tempYearUid) {
+            var count = tempMonthUid;
+            $.getJSON(apiChart1, function (json) {
+                var datarows = json.rows;
+                var peArr = json.metaData.pe;
+                var facilityArr = json.metaData[facility];
+                var dataResult = [];
+                //sort
+                for (var i = 0; i < peArr.length; i++) {
+                    var minPe = peArr[i];
+                    for (var k = 0; k < facilityArr.length; k++) {
+                        var minF = facilityArr[k];
+                        for (var j = 0; j < datarows.length; j++) {
+                            if (datarows[j][0] == minF && datarows[j][1] == minPe) {
+                                dataResult.push(datarows[j]);
+                            }
+                        }
+                    }
+                }
+                var xAxisCategoriesArr = [];
+                for (var i = 0; i < peArr.length; i++) {
+                    xAxisCategoriesArr.push(json.metaData.names[peArr[i]])
+                    if (xAxisCategoriesArr.length >= count) break;
+                }
+                var dataSeriesArrO = [];
+
+                for (var i = 0; i < facilityArr.length; i++) {
+                    var name = json.metaData.names[facilityArr[i]];
+                    var data = [];
+                    for (var j = 0; j < dataResult.length; j++) {
+                        if (dataResult[j][0] == facilityArr[i]) {
+                            data.push(Number(dataResult[j][2]));
+                            if (data.length >= count) break;
+                        }
+                    }
+                    var seriO = {
+                        name: name,
+                        data: data
+                    }
+                    dataSeriesArrO.push(seriO);
+                }
+                createBarCharts("chart1", "chart1", "", xAxisCategoriesArr, dataSeriesArrO);
+            });
+        }
+
+        function createChart2(tempOrgUnitUid, tempMonthUid, tempYearUid) {
+
+            var count = tempMonthUid * 3;
+            $.getJSON(apiChart2, function (json) {
+                var datarows = json.rows;
+                var peArr = json.metaData.pe;
+                var facilityArr = json.metaData[facility];
+                var dataResult = [];
+                //sort
+                for (var i = 0; i < peArr.length; i++) {
+                    var minPe = peArr[i];
+                    for (var k = 0; k < facilityArr.length; k++) {
+                        var minF = facilityArr[k];
+                        for (var j = 0; j < datarows.length; j++) {
+                            if (datarows[j][0] == minF && datarows[j][1] == minPe) {
+                                dataResult.push(datarows[j]);
+                            }
+                        }
+                    }
+                }
+                var xAxisCategoriesArr = [];
+                for (var i = 0; i < peArr.length; i++) {
+                    xAxisCategoriesArr.push(json.metaData.names[peArr[i]])
+                    if (xAxisCategoriesArr.length >= count) break;
+                }
+                var dataSeriesArrO = [];
+
+                for (var i = 0; i < facilityArr.length; i++) {
+                    var name = json.metaData.names[facilityArr[i]];
+                    var data = [];
+                    for (var j = 0; j < dataResult.length; j++) {
+                        if (dataResult[j][0] == facilityArr[i]) {
+                            data.push(Number(dataResult[j][2]));
+                            if (data.length >= count) break;
+                        }
+                    }
+                    var seriO = {
+                        name: name,
+                        data: data
+                    }
+                    dataSeriesArrO.push(seriO);
+                }
+                createLineCharts("chart2", "char2", "", xAxisCategoriesArr, dataSeriesArrO);
+            });
+        }
+
+        function createChart3(tempOrgUnitUid, tempMonthUid, tempYearUid) {
+            var count = tempMonthUid;
+            $.getJSON(apiChart3, function (json) {
+                var datarows = json.rows;
+                var peArr = [];
+                var facilityArr = json.metaData[facility];
+                var dataResult = [];
+
+                //swap alternate pe array
+                var mid = json.metaData.pe.length / 2;
+                for (var i = 0; i < mid; i++) {
+                    peArr.push(json.metaData.pe[i], json.metaData.pe[i + mid]);
+                }
+                count = peArr.length;
+
+                //sort
+                for (var i = 0; i < peArr.length; i++) {
+                    var minPe = peArr[i];
+                    for (var k = 0; k < facilityArr.length; k++) {
+                        var minF = facilityArr[k];
+                        for (var j = 0; j < datarows.length; j++) {
+                            if (datarows[j][0] == minF && datarows[j][1] == minPe) {
+                                dataResult.push(datarows[j]);
+                            }
+                        }
+                    }
+                }
+                var xAxisCategoriesArr = [];
+                for (var i = 0; i < peArr.length; i++) {
+                    xAxisCategoriesArr.push(json.metaData.names[peArr[i]])
+                    if (xAxisCategoriesArr.length >= count) break;
+                }
+                var dataSeriesArrO = [];
+
+                for (var i = 0; i < facilityArr.length; i++) {
+                    var name = json.metaData.names[facilityArr[i]];
+                    var data = [];
+                    for (var j = 0; j < dataResult.length; j++) {
+                        if (dataResult[j][0] == facilityArr[i]) {
+                            data.push(Number(dataResult[j][2]));
+                            if (data.length >= count) break;
+                        }
+                    }
+                    var seriO = {
+                        name: name,
+                        data: data
+                    }
+                    dataSeriesArrO.push(seriO);
+                }
+                createBarCharts("chart3", "chart3", "", xAxisCategoriesArr, dataSeriesArrO);
+            });
+        }
+
+        function createBarCharts(view, titleStr, subtitleStr, xAxisCategoriesArr, dataSeriesArrO) {
+            $("#" + view).highcharts({
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: titleStr
+                },
+                subtitle: {
+                    text: subtitleStr
+                },
+                xAxis: {
+                    categories: xAxisCategoriesArr,
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: ''
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: dataSeriesArrO
+            });
+        }
+
+        function createLineCharts(view, titleStr, subtitleStr, xAxisCategoriesArr, dataSeriesArrO) {
+            $("#" + view).highcharts({
+                chart: {
+                    type: 'line'
+                },
+                title: {
+                    text: titleStr
+                },
+                subtitle: {
+                    text: subtitleStr
+                },
+                xAxis: {
+                    categories: xAxisCategoriesArr,
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: ''
+                    },
+                    plotLines: [{
+                        value: 0,
+                        width: 1,
+                        color: '#808080'
+                    }]
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                series: dataSeriesArrO
+            });
+        }
+
+
+
+        /*end import function files*/
+    </script>
+</head>
+<body>
+
+<div id="printing">
+    <section class="clearfix">
+        <header id="header"><a id="logo" target="_blank"><span>Scale MIS Dashboard</span></a></header>
+        <form class="demo">
+
+            <select id="dropdown" style=" margin-left:10%">
+                <option selected value="base">Please Select OrgUnit</option>
+
+            </select>
+            <select id="indicator">
+                <option selected value="base">Please Select Indicator Group</option>
+
+            </select>
+
+            <select name="two" class="select2" id="ddlMonth">
+                <option selected value="base"></option>
+            </select>
+            <select id="year">
+                <option selected value="base"></option>
+            </select>
+
+        </form>
+    </section>
+</div>
+<button id="button" class="btn btn-primary" style="margin-left: 50%" onclick="validateDashboard()">Go</button>
+
+<div id="container2">
+    <div id="container1">
+        <div id="col1">
+            <div id="chart1" style="min-width: 310px; height: 400px;" class="floating-box"></div>
+        </div>
+        <div id="col2">
+            <div id="chart2" class="floating-box"></div>
+        </div>
+    </div>
+</div>
+<div id="footer">
+    <div id="chart3" class="floating-box"></div>
+</div>
+
+<script>
+    $(function () {
+        initial();
+    });
+</script>
+
+</body>
+</html>
