@@ -1,4 +1,4 @@
-function generateApiChart1(orgUnitID, year) {
+function generateApiChart1(orgUnitID, indicatorID, year) {
     if (configDeploy == PRODUCTION) {
         var quarterArr = ["Q1", "Q2", "Q3", "Q4"];
         var peGen = "";
@@ -6,36 +6,36 @@ function generateApiChart1(orgUnitID, year) {
             peGen += (year + quarterArr[i]);
             if (i < quarterArr.length - 1) peGen += ";";
         }
-        apiChart1 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:nlyO8gj4uHd&displayProperty=NAME&outputIdScheme=ID";
+        apiChart1 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:" + indicatorID + "&displayProperty=NAME&outputIdScheme=ID";
     } else {
     }
 }
 
-function generateApiChart2(orgUnitID, year) {
+function generateApiChart2(orgUnitID, indicatorID, year) {
     if (configDeploy == PRODUCTION) {
-        var quarterArr = ["01", "02", "03", "04","05","06","07","08","09","10","11","12"];
+        var quarterArr = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
         var peGen = "";
         for (var i = 0; i < quarterArr.length; i++) {
             peGen += (year + quarterArr[i]);
             if (i < quarterArr.length - 1) peGen += ";";
         }
-        apiChart2 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:nlyO8gj4uHd&displayProperty=NAME&outputIdScheme=ID";
+        apiChart2 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:" + indicatorID + "&displayProperty=NAME&outputIdScheme=ID";
     } else {
     }
 }
 
-function generateApiChart3(orgUnitID, year) {
+function generateApiChart3(orgUnitID, indicatorID, year) {
     if (configDeploy == PRODUCTION) {
-        var quarterArr = ["10","11","12"];
+        var quarterArr = ["10", "11", "12"];
         var peGen = "";
         for (var i = 0; i < quarterArr.length; i++) {
-            peGen += (year + quarterArr[i])+ ";";
+            peGen += (year + quarterArr[i]) + ";";
         }
         for (var i = 0; i < quarterArr.length; i++) {
-            peGen += ((Number(year)+1) + quarterArr[i]);
+            peGen += ((Number(year) + 1) + quarterArr[i]);
             if (i < quarterArr.length - 1) peGen += ";";
         }
-        apiChart3 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:nlyO8gj4uHd&displayProperty=NAME&outputIdScheme=ID";
+        apiChart3 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:" + indicatorID + "&displayProperty=NAME&outputIdScheme=ID";
     } else {
     }
 }
@@ -47,8 +47,12 @@ function validateDashboard() {
     var tempOrgUnitUid = orgUnitList.options[orgUnitList.selectedIndex].value;
 
     // indicator related
-    var tempIndicatorList = document.getElementById('indicator');
-    var tempIndicatorUid = tempIndicatorList.options[tempIndicatorList.selectedIndex].value;
+    var tempIndicatorList = document.getElementById('indicatorGroup');
+    var tempIndicatorListUid = tempIndicatorList.options[tempIndicatorList.selectedIndex].value;
+
+    // indicator related
+    var tempIndicator = document.getElementById('indicator');
+    var tempIndicatorUid = tempIndicator.options[tempIndicator.selectedIndex].value;
 
     // month related
     var tempMonthList = document.getElementById('ddlMonth');
@@ -63,10 +67,15 @@ function validateDashboard() {
         return;
     }
 
-    //else if (tempIndicatorUid == "base" || tempIndicatorUid == undefined) {
-    //    alert("Please select Indicator");
-    //    return;
-    //}
+    else if (tempIndicatorListUid == "base" || tempIndicatorListUid == undefined) {
+        alert("Please select Indicator Group");
+        return;
+    }
+
+    else if (tempIndicatorUid == "base" || tempIndicatorUid == undefined) {
+        alert("Please select Indicator");
+        return;
+    }
 
     else if (tempMonthUid == "Select Month" || tempMonthUid == undefined) {
         alert("Please select Month");
@@ -77,9 +86,10 @@ function validateDashboard() {
         alert("Please select Year");
         return;
     }
-    generateApiChart1(tempOrgUnitUid, tempYearUid);
-    generateApiChart2(tempOrgUnitUid, tempYearUid);
-    generateApiChart3(tempOrgUnitUid, tempYearUid);
+
+    generateApiChart1(tempOrgUnitUid, tempIndicatorUid, tempYearUid);
+    generateApiChart2(tempOrgUnitUid, tempIndicatorUid, tempYearUid);
+    generateApiChart3(tempOrgUnitUid, tempIndicatorUid, tempYearUid);
     myFunction(tempOrgUnitUid, tempMonthUid, tempYearUid);
 }
 
