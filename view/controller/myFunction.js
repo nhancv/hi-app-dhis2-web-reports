@@ -1,4 +1,4 @@
-function generateApiChart1(orgUnitID, indicatorID, year) {
+function generateApiChart1(orgUnitID, dataElementID, year) {
     if (configDeploy == PRODUCTION) {
         var quarterArr = ["Q1", "Q2", "Q3", "Q4"];
         var peGen = "";
@@ -6,12 +6,12 @@ function generateApiChart1(orgUnitID, indicatorID, year) {
             peGen += (year + quarterArr[i]);
             if (i < quarterArr.length - 1) peGen += ";";
         }
-        apiChart1 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:" + indicatorID + "&displayProperty=NAME&outputIdScheme=ID";
+        apiChart1 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:" + dataElementID + "&displayProperty=NAME&outputIdScheme=ID";
     } else {
     }
 }
 
-function generateApiChart2(orgUnitID, indicatorID, year) {
+function generateApiChart2(orgUnitID, dataElementID, year) {
     if (configDeploy == PRODUCTION) {
         var quarterArr = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
         var peGen = "";
@@ -19,12 +19,12 @@ function generateApiChart2(orgUnitID, indicatorID, year) {
             peGen += (year + quarterArr[i]);
             if (i < quarterArr.length - 1) peGen += ";";
         }
-        apiChart2 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:" + indicatorID + "&displayProperty=NAME&outputIdScheme=ID";
+        apiChart2 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:" + dataElementID + "&displayProperty=NAME&outputIdScheme=ID";
     } else {
     }
 }
 
-function generateApiChart3(orgUnitID, indicatorID, year) {
+function generateApiChart3(orgUnitID, dataElementID, year) {
     if (configDeploy == PRODUCTION) {
         var quarterArr = ["10", "11", "12"];
         var peGen = "";
@@ -35,9 +35,35 @@ function generateApiChart3(orgUnitID, indicatorID, year) {
             peGen += ((Number(year) + 1) + quarterArr[i]);
             if (i < quarterArr.length - 1) peGen += ";";
         }
-        apiChart3 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:" + indicatorID + "&displayProperty=NAME&outputIdScheme=ID";
+        apiChart3 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:" + dataElementID + "&displayProperty=NAME&outputIdScheme=ID";
     } else {
     }
+}
+
+function autoGenerateChartHtml(numChartGroup) {
+    $('#chartBody').html('');
+    var count = 1;
+    var chartGroupId = [];
+    for (var i = 0; i < numChartGroup; i++) {
+        chartGroupId.push([count++, count++, count++]);
+    }
+    for (var i = 0; i < numChartGroup; i++) {
+        var chartBody = '<div class="container2"> ' +
+            '<div class="container1"> ' +
+            '<div class="col1"> ' +
+            '<div id="chart' + chartGroupId[i][0] + '" style="min-width: 310px; height: 400px;" class="floating-box"></div>' +
+            '</div>' +
+            '<div class="col2">' +
+            '<div id="chart' + chartGroupId[i][1] + '" style="min-width: 310px; height: 400px;" class="floating-box"></div>' +
+            '</div> ' +
+            '</div>' +
+            '</div> ' +
+            '<div class="footer">' +
+            '<div id="chart' + chartGroupId[i][2] + '" style="min-width: 310px; height: 400px " class="floating-box"></div>' +
+            '</div>';
+        $('#chartBody').append(chartBody);
+    }
+    return chartGroupId;
 }
 
 function validateDashboard() {
@@ -72,10 +98,10 @@ function validateDashboard() {
         return;
     }
 
-    else if (tempDataElementUid == "base" || tempDataElementUid == undefined) {
-        alert("Please select DataElement");
-        return;
-    }
+    //else if (tempDataElementUid == "base" || tempDataElementUid == undefined) {
+    //    alert("Please select DataElement");
+    //    return;
+    //}
 
     else if (tempMonthUid == "Select Month" || tempMonthUid == undefined) {
         alert("Please select Month");
@@ -87,47 +113,94 @@ function validateDashboard() {
         return;
     }
 
-    generateApiChart1(tempOrgUnitUid, tempDataElementUid, tempYearUid);
-    generateApiChart2(tempOrgUnitUid, tempDataElementUid, tempYearUid);
-    generateApiChart3(tempOrgUnitUid, tempDataElementUid, tempYearUid);
-    myFunction(tempOrgUnitUid, tempMonthUid, tempYearUid);
+
+    //generate html
+    if (tempDataElementUid != "base" && tempDataElementUid != undefined) {
+        numChartGroup = 1;
+    }
+
+    myFunction(numChartGroup, chartDataGroup, tempOrgUnitUid, tempDataElementUid, tempMonthUid, tempYearUid);
+
 }
 
-function myFunction(tempOrgUnitUid, tempMonthUid, tempYearUid) {
-    createChart1(tempOrgUnitUid, tempMonthUid, tempYearUid);
-    createChart2(tempOrgUnitUid, tempMonthUid, tempYearUid);
-    createChart3(tempOrgUnitUid, tempMonthUid, tempYearUid);
+function myFunction(numChartGroup, chartDataGroup, tempOrgUnitUid, tempDataElementUid, tempMonthUid, tempYearUid) {
+    var chartGroupId = autoGenerateChartHtml(numChartGroup);
+    if (numChartGroup == 1) {
+        generateApiChart1(tempOrgUnitUid, tempDataElementUid, tempYearUid);
+        generateApiChart2(tempOrgUnitUid, tempDataElementUid, tempYearUid);
+        generateApiChart3(tempOrgUnitUid, tempDataElementUid, tempYearUid);
+
+        var titleDe='Chart';
+        for(var i =0; i<chartDataGroup.length; i++){
+            if(chartDataGroup[i].id==tempDataElementUid){
+                titleDe = chartDataGroup[i].name;
+            }
+        }
+        createChart1(chartInfo = {
+            chartId: "chart1",
+            title: titleDe
+        }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+        createChart2(chartInfo = {
+            chartId: "chart2",
+            title: titleDe
+        }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+        createChart3(chartInfo = {
+            chartId: "chart3",
+            title: titleDe
+        }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+    } else {
+        for (var i = 0; i < numChartGroup; i++) {
+
+            generateApiChart1(tempOrgUnitUid, chartDataGroup[i].id, tempYearUid);
+            generateApiChart2(tempOrgUnitUid, chartDataGroup[i].id, tempYearUid);
+            generateApiChart3(tempOrgUnitUid, chartDataGroup[i].id, tempYearUid);
+
+            createChart1({
+                chartId: "chart" + chartGroupId[i][0],
+                title: chartDataGroup[i].name
+            }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+            createChart2({
+                chartId: "chart" + chartGroupId[i][1],
+                title: chartDataGroup[i].name
+            }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+            createChart3({
+                chartId: "chart" + chartGroupId[i][2],
+                title: chartDataGroup[i].name
+            }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+
+        }
+    }
 }
 
-function createChart1(tempOrgUnitUid, tempMonthUid, tempYearUid) {
+function createChart1(chartInfo, tempOrgUnitUid, tempMonthUid, tempYearUid) {
     var count = tempMonthUid;
     $.getJSON(apiChart1, function (jsonRes) {
         var json = standardlizeData(jsonRes);
         var chartData = preparingDataforChart(json, count);
 
-        createBarCharts("chart1", "chart1", "", chartData.xaxis, chartData.series);
+        createBarCharts(chartInfo.chartId, chartInfo.title, "", chartData.xaxis, chartData.series);
     });
 }
 
-function createChart2(tempOrgUnitUid, tempMonthUid, tempYearUid) {
+function createChart2(chartInfo, tempOrgUnitUid, tempMonthUid, tempYearUid) {
 
     var count = tempMonthUid * 3;
     $.getJSON(apiChart2, function (jsonRes) {
         var json = standardlizeData(jsonRes);
         var chartData = preparingDataforChart(json, count);
 
-        createLineCharts("chart2", "char2", "", chartData.xaxis, chartData.series);
+        createLineCharts(chartInfo.chartId, chartInfo.title, "", chartData.xaxis, chartData.series);
     });
 }
 
-function createChart3(tempOrgUnitUid, tempMonthUid, tempYearUid) {
+function createChart3(chartInfo, tempOrgUnitUid, tempMonthUid, tempYearUid) {
     var count = tempMonthUid;
     $.getJSON(apiChart3, function (jsonRes) {
         var json = standardlizeData(jsonRes);
         json = swapAlternativePe(json);
         count = json.metaData.pe;
         var chartData = preparingDataforChart(json, count);
-        createBarCharts("chart3", "chart3", "", chartData.xaxis, chartData.series);
+        createBarCharts(chartInfo.chartId, chartInfo.title, "", chartData.xaxis, chartData.series);
     });
 }
 
