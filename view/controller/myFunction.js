@@ -47,12 +47,12 @@ function validateDashboard() {
     var tempOrgUnitUid = orgUnitList.options[orgUnitList.selectedIndex].value;
 
     // indicator related
-    var tempIndicatorList = document.getElementById('indicatorGroup');
-    var tempIndicatorListUid = tempIndicatorList.options[tempIndicatorList.selectedIndex].value;
+    var tempDataElementList = document.getElementById('dataElementGroup');
+    var tempDataElementListUid = tempDataElementList.options[tempDataElementList.selectedIndex].value;
 
     // indicator related
-    var tempIndicator = document.getElementById('indicator');
-    var tempIndicatorUid = tempIndicator.options[tempIndicator.selectedIndex].value;
+    var tempDataElement = document.getElementById('dataElements');
+    var tempDataElementUid = tempDataElement.options[tempDataElement.selectedIndex].value;
 
     // month related
     var tempMonthList = document.getElementById('ddlMonth');
@@ -67,13 +67,13 @@ function validateDashboard() {
         return;
     }
 
-    else if (tempIndicatorListUid == "base" || tempIndicatorListUid == undefined) {
-        alert("Please select Indicator Group");
+    else if (tempDataElementListUid == "base" || tempDataElementListUid == undefined) {
+        alert("Please select DataElement Group");
         return;
     }
 
-    else if (tempIndicatorUid == "base" || tempIndicatorUid == undefined) {
-        alert("Please select Indicator");
+    else if (tempDataElementUid == "base" || tempDataElementUid == undefined) {
+        alert("Please select DataElement");
         return;
     }
 
@@ -87,9 +87,9 @@ function validateDashboard() {
         return;
     }
 
-    generateApiChart1(tempOrgUnitUid, tempIndicatorUid, tempYearUid);
-    generateApiChart2(tempOrgUnitUid, tempIndicatorUid, tempYearUid);
-    generateApiChart3(tempOrgUnitUid, tempIndicatorUid, tempYearUid);
+    generateApiChart1(tempOrgUnitUid, tempDataElementUid, tempYearUid);
+    generateApiChart2(tempOrgUnitUid, tempDataElementUid, tempYearUid);
+    generateApiChart3(tempOrgUnitUid, tempDataElementUid, tempYearUid);
     myFunction(tempOrgUnitUid, tempMonthUid, tempYearUid);
 }
 
@@ -152,6 +152,7 @@ function createBarCharts(view, titleStr, subtitleStr, xAxisCategoriesArr, dataSe
                 text: ''
             }
         },
+
         tooltip: {
             headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
             pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
@@ -163,7 +164,10 @@ function createBarCharts(view, titleStr, subtitleStr, xAxisCategoriesArr, dataSe
         plotOptions: {
             column: {
                 pointPadding: 0.2,
-                borderWidth: 0
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true
+                }
             }
         },
         series: dataSeriesArrO
@@ -184,6 +188,14 @@ function createLineCharts(view, titleStr, subtitleStr, xAxisCategoriesArr, dataS
         xAxis: {
             categories: xAxisCategoriesArr,
             crosshair: true
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
         },
         yAxis: {
             min: 0,

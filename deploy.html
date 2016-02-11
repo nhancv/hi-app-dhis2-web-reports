@@ -252,8 +252,8 @@
         var facility = "Ff8x7tCAgRq";
         var apiAnalyticTemplate = "../../../api/analytics.json?dimension=Ff8x7tCAgRq:erJTmh496gJ;nYkU5JbrOqg&dimension=pe:";
         var apiOrgUnits = "../../../api/organisationUnitGroups/lBQUJ9K4wQK.json?fields=organisationUnits[id,name,shortName]";
-        var apiIndicatorGroup = "../../../api/indicatorGroups.json?fields=id,name";
-        var apiIndicator = "../../../api/indicatorGroups/";
+        var apiDataElementGroups = "../../../api/dataElementGroups.json?fields=id,name";
+        var apiDataElement = "../../../api/dataElementGroups/";
         var apiChart1 = apiAnalyticTemplate;
         var apiChart2 = apiAnalyticTemplate;
         var apiChart3 = apiAnalyticTemplate;
@@ -267,12 +267,12 @@
             });
 
 
-            $("#indicatorGroup").change(function () {
-                var indicatorGroupID = $(this).find("option:selected").val();
-                $.getJSON(apiIndicator + indicatorGroupID + ".json?fields=id,name,indicators[id,name]", function (data) {
-                    $('#indicator').html('<option selected value="base">Please Select Indicator</option>');
-                    $.each(data.indicators, function (index, item) {
-                        $('#indicator').append(
+            $("#dataElementGroup").change(function () {
+                var dataElementGroupID = $(this).find("option:selected").val();
+                $.getJSON(apiDataElement + dataElementGroupID + ".json?fields=id,name,dataElements[id,name]", function (data) {
+                    $('#dataElements').html('<option selected value="base">Please Select DataElement</option>');
+                    $.each(data.dataElements, function (index, item) {
+                        $('#dataElements').append(
                                 $('<option></option>').val(item.id).html(item).text(item.name)
                         );
                     });
@@ -301,9 +301,9 @@
                 });
             });
             //get indicator group data
-            $.getJSON(apiIndicatorGroup, function (data) {
-                $.each(data.indicatorGroups, function (index, item) {
-                    $('#indicatorGroup').append(
+            $.getJSON(apiDataElementGroups, function (data) {
+                $.each(data.dataElementGroups, function (index, item) {
+                    $('#dataElementGroup').append(
                             $('<option></option>').val(item.id).html(item).text(item.name)
                     );
                 });
@@ -373,12 +373,12 @@
             var tempOrgUnitUid = orgUnitList.options[orgUnitList.selectedIndex].value;
 
             // indicator related
-            var tempIndicatorList = document.getElementById('indicatorGroup');
-            var tempIndicatorListUid = tempIndicatorList.options[tempIndicatorList.selectedIndex].value;
+            var tempDataElementList = document.getElementById('dataElementGroup');
+            var tempDataElementListUid = tempDataElementList.options[tempDataElementList.selectedIndex].value;
 
             // indicator related
-            var tempIndicator = document.getElementById('indicator');
-            var tempIndicatorUid = tempIndicator.options[tempIndicator.selectedIndex].value;
+            var tempDataElement = document.getElementById('dataElements');
+            var tempDataElementUid = tempDataElement.options[tempDataElement.selectedIndex].value;
 
             // month related
             var tempMonthList = document.getElementById('ddlMonth');
@@ -393,13 +393,13 @@
                 return;
             }
 
-            else if (tempIndicatorListUid == "base" || tempIndicatorListUid == undefined) {
-                alert("Please select Indicator Group");
+            else if (tempDataElementListUid == "base" || tempDataElementListUid == undefined) {
+                alert("Please select DataElement Group");
                 return;
             }
 
-            else if (tempIndicatorUid == "base" || tempIndicatorUid == undefined) {
-                alert("Please select Indicator");
+            else if (tempDataElementUid == "base" || tempDataElementUid == undefined) {
+                alert("Please select DataElement");
                 return;
             }
 
@@ -413,10 +413,9 @@
                 return;
             }
 
-            console.log(tempIndicatorUid);
-            generateApiChart1(tempOrgUnitUid, tempIndicatorUid, tempYearUid);
-            generateApiChart2(tempOrgUnitUid, tempIndicatorUid, tempYearUid);
-            generateApiChart3(tempOrgUnitUid, tempIndicatorUid, tempYearUid);
+            generateApiChart1(tempOrgUnitUid, tempDataElementUid, tempYearUid);
+            generateApiChart2(tempOrgUnitUid, tempDataElementUid, tempYearUid);
+            generateApiChart3(tempOrgUnitUid, tempDataElementUid, tempYearUid);
             myFunction(tempOrgUnitUid, tempMonthUid, tempYearUid);
         }
 
@@ -651,12 +650,12 @@
                 <option selected value="base">Please Select OrgUnit</option>
 
             </select>
-            <select id="indicatorGroup">
-                <option selected value="base">Please Select Indicator Group</option>
+            <select id="dataElementGroup">
+                <option selected value="base">Please Select DataElement Group</option>
 
             </select>
-            <select id="indicator">
-                <option selected value="base">Please Select Indicator</option>
+            <select id="dataElements">
+                <option selected value="base">Please Select DataElement</option>
 
             </select>
             <select name="two" class="select2" id="ddlMonth" style="width: 100px;">
