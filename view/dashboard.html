@@ -253,10 +253,11 @@
         var facility = "Ff8x7tCAgRq";
 
         var apiOrgUnits = "../model/localdb/orgUnits.json";
+        var apiIndicatorGroup = "../model/localdb/indicatorGroup.json";
+        var apiIndicator= "../model/localdb/";
         var apiChart1 = "../model/localdb/chart1.json";
         var apiChart2 = "../model/localdb/chart2.json";
         var apiChart3 = "../model/localdb/chart3.json";
-
 
         function initial() {
 
@@ -264,6 +265,20 @@
                 selectedText = $(this).find("option:selected").text();
                 orgUid = $(this).find("option:selected").val();
             });
+
+
+            $("#indicatorGroup").change(function () {
+                var indicatorGroupID = $(this).find("option:selected").val();
+                $.getJSON(apiIndicator+indicatorGroupID+".json?fields=id,name,indicators[id,name]", function (data) {
+                    $('#indicator').html('<option selected value="base">Please Select Indicator</option>');
+                    $.each(data.indicators, function (index, item) {
+                        $('#indicator').append(
+                                $('<option></option>').val(item.id).html(item).text(item.name)
+                        );
+                    });
+                });
+            });
+
 
             $("#ddlMonth").change(function () {
                 selectedText_month = $(this).find("option:selected").text();
@@ -276,7 +291,7 @@
             populateDropDownList("ddlMonth", "year");
         }
 
-        function populateDropDownList(monthfield, yearfield) {
+        function populateDropDownList(_monthfield, _yearfield) {
             //get org data
             $.getJSON(apiOrgUnits, function (data) {
                 $.each(data.organisationUnits, function (index, item) {
@@ -285,11 +300,19 @@
                     );
                 });
             });
+            //get indicator group data
+            $.getJSON(apiIndicatorGroup, function (data) {
+                $.each(data.indicatorGroups, function (index, item) {
+                    $('#indicatorGroup').append(
+                            $('<option></option>').val(item.id).html(item).text(item.name)
+                    );
+                });
+            });
 
             var monthtext = ['Select Quater', '1st quater', '2nd quater', '3rd quater', '4th quater'];
             var yeartext = ['Select Year', '2014', '2015'];
-            var monthfield = document.getElementById(monthfield);
-            var yearfield = document.getElementById(yearfield);
+            var monthfield = document.getElementById(_monthfield);
+            var yearfield = document.getElementById(_yearfield);
             for (var m = 0; m <= 4; m++) {
                 monthfield.options[m] = new Option(monthtext[m], m)
             }
@@ -315,15 +338,18 @@
                 <option selected value="base">Please Select OrgUnit</option>
 
             </select>
-            <select id="indicator">
+            <select id="indicatorGroup">
                 <option selected value="base">Please Select Indicator Group</option>
 
             </select>
+            <select id="indicator">
+                <option selected value="base">Please Select Indicator</option>
 
-            <select name="two" class="select2" id="ddlMonth">
+            </select>
+            <select name="two" class="select2" id="ddlMonth" style="width: 100px;">
                 <option selected value="base"></option>
             </select>
-            <select id="year">
+            <select id="year" style="width: 100px;">
                 <option selected value="base"></option>
             </select>
 

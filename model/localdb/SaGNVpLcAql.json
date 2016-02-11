@@ -1,0 +1,30 @@
+{
+  "name": "ANC",
+  "id": "SaGNVpLcAql",
+  "indicators": [
+    {
+      "name": "ANC registrations",
+      "id": "m4l6dkZE3Tb"
+    },
+    {
+      "name": "ANC TT1 coverage",
+      "id": "M3D893rVBKE"
+    },
+    {
+      "name": "ANC 3 coverage (%)",
+      "id": "Mj91lFszvMG"
+    },
+    {
+      "name": "ANC TT2 coverage",
+      "id": "zW2OtCBc3cy"
+    },
+    {
+      "name": "ANC IFA coverage (%)",
+      "id": "AuM1HTnkG8Z"
+    },
+    {
+      "name": "ANC TT booster coverage",
+      "id": "QlZZstQf3Ja"
+    }
+  ]
+}

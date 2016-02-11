@@ -1,0 +1,45 @@
+{
+  "pager": {
+    "page": 1,
+    "pageCount": 1,
+    "total": 9
+  },
+  "indicatorGroups": [
+    {
+      "name": "ANC",
+      "id": "SaGNVpLcAql"
+    },
+    {
+      "name": "Delivery and newborn details",
+      "id": "yIZFwbfrSrQ"
+    },
+    {
+      "name": "LCA-ANC (Raw Data)",
+      "id": "ulHOzYxfHSU"
+    },
+    {
+      "name": "LCA-ANC to PNC (Indicators)",
+      "id": "cJ0NEfkb3D9"
+    },
+    {
+      "name": "LCA-ANC to PNC (Raw Data)",
+      "id": "lmGWFfrgs2U"
+    },
+    {
+      "name": "LCA-Child Health (Raw Data)",
+      "id": "wKXaJskgSYD"
+    },
+    {
+      "name": "LCA-Delivery (Raw Data)",
+      "id": "PWDvJmKUl6E"
+    },
+    {
+      "name": "Stock closing balance",
+      "id": "dec3KY2goEB"
+    },
+    {
+      "name": "WISH Indicators",
+      "id": "PzSgZQ2jsPI"
+    }
+  ]
+}

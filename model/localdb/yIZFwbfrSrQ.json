@@ -1,0 +1,42 @@
+{
+  "name": "Delivery and newborn details",
+  "id": "yIZFwbfrSrQ",
+  "indicators": [
+    {
+      "name": "Low birth weight (%)",
+      "id": "UTVb4MNvSo4"
+    },
+    {
+      "name": "Institutional deliveries",
+      "id": "zOhVvMGV63v"
+    },
+    {
+      "name": "Low birth weight cases",
+      "id": "ty7q1Ftyt06"
+    },
+    {
+      "name": "Newborns breast fed within 1 hour",
+      "id": "Pvq5zU2I0NS"
+    },
+    {
+      "name": "Abortions conducted",
+      "id": "mJBlKZjaXMl"
+    },
+    {
+      "name": "Institutional deliveries (%)",
+      "id": "wYabOyP6CHE"
+    },
+    {
+      "name": "Newborns breastfed within 1 hour (%)",
+      "id": "dXn4wndoExy"
+    },
+    {
+      "name": "Delivery complications-treated cases",
+      "id": "MMvXDJaHx9H"
+    },
+    {
+      "name": "Delivery complications-treated cases (%)",
+      "id": "ZRmwJ1RGhmw"
+    }
+  ]
+}
