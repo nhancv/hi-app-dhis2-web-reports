@@ -1,0 +1,73 @@
+{
+  "pager": {
+    "page": 1,
+    "pageCount": 1,
+    "total": 16
+  },
+  "dataElementGroups": [
+    {
+      "name": "Abortion (MTP)",
+      "id": "tpGHwdmMzKc"
+    },
+    {
+      "name": "ANC",
+      "id": "kOlOuWLGSh1"
+    },
+    {
+      "name": "Blindess control programme",
+      "id": "N2Ht2zNsclO"
+    },
+    {
+      "name": "Cold chain",
+      "id": "H9O8ESK3Ppi"
+    },
+    {
+      "name": "Delivery",
+      "id": "tfiTvY2eDuu"
+    },
+    {
+      "name": "Family Planning",
+      "id": "ixEu88NgdHn"
+    },
+    {
+      "name": "Health facility services",
+      "id": "cffQlHFeBUS"
+    },
+    {
+      "name": "Immunisation",
+      "id": "XZG0TAUnhro"
+    },
+    {
+      "name": "Immunisation sessions",
+      "id": "y8C6sx8jq7r"
+    },
+    {
+      "name": "IMNCI",
+      "id": "ApmYBQqb4NJ"
+    },
+    {
+      "name": "Laboratory services",
+      "id": "itzedUhlXD6"
+    },
+    {
+      "name": "Mortality details",
+      "id": "JlYQYZLFFja"
+    },
+    {
+      "name": "Postnatal care",
+      "id": "i6xPcDo1xX4"
+    },
+    {
+      "name": "RTI/STI cases",
+      "id": "f7tEdKo1aLt"
+    },
+    {
+      "name": "Vaccine and other commodities stock",
+      "id": "Vr4FK0u5cpX"
+    },
+    {
+      "name": "Vaccine preventable cases and deaths",
+      "id": "Y9P1S2ymPXt"
+    }
+  ]
+}
