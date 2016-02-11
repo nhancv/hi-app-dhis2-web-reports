@@ -250,6 +250,7 @@
         /********************************/
 
         var facility = "Ff8x7tCAgRq";
+        var apiorgblock= "../../../api/organisationUnitGroups/IacXslOlSjV.json?&fields=organisationUnits[id,name]";
         var apiAnalyticTemplate = "../../../api/analytics.json?dimension=Ff8x7tCAgRq:erJTmh496gJ;nYkU5JbrOqg&dimension=pe:";
         var apiOrgUnits = "../../../api/organisationUnitGroups/lBQUJ9K4wQK.json?fields=organisationUnits[id,name,shortName]";
         var apiDataElementGroups = "../../../api/dataElementGroups.json?fields=id,name";
@@ -293,8 +294,8 @@
 
         function populateDropDownList(_monthfield, _yearfield) {
             //get org data
-            $.getJSON(apiOrgUnits, function (data) {
-                $.each(data.organisationUnits, function (index, item) {
+            $.getJSON(apiorgblock, function (data) {
+                $.each(data.organisationUnits, function (index, item){
                     $('#dropdown').append(
                             $('<option></option>').val(item.id).html(item).text(item.name)
                     );
@@ -647,7 +648,7 @@
         <form class="demo">
 
             <select id="dropdown" style=" margin-left:10%">
-                <option selected value="base">Please Select OrgUnit</option>
+                <option selected value="base">Please Select Block</option>
 
             </select>
             <select id="dataElementGroup">
