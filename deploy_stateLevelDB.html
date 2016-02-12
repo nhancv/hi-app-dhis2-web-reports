@@ -164,7 +164,7 @@
         /********************************/
 
         var facility = "Ff8x7tCAgRq";
-        var apiAnalyticTemplate = "../../../api/analytics.json?dimension=Ff8x7tCAgRq:erJTmh496gJ;nYkU5JbrOqg&dimension=pe:";
+        var apiAnalyticTemplate = "../../../api/analytics.json?dimension=dx:";
         var apiOrgUnits = "../../../api/organisationUnits/MQXUk7OYQzG.json?&fields=id,name,children[name,id]&paging=false";
         var apiDataElementGroups = "../../../api/dataElementGroups.json?fields=id,name";
         var apiDataElement = "../../../api/dataElementGroups/";
@@ -250,7 +250,9 @@
                     peGen += (year + quarterArr[i]);
                     if (i < quarterArr.length - 1) peGen += ";";
                 }
-                apiChart1 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:" + dataElementID + "&displayProperty=NAME&outputIdScheme=ID";
+
+                apiChart1 = getApiStr(dataElementID, orgUnitID, peGen);
+
             } else {
             }
         }
@@ -263,7 +265,9 @@
                     peGen += (year + quarterArr[i]);
                     if (i < quarterArr.length - 1) peGen += ";";
                 }
-                apiChart2 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:" + dataElementID + "&displayProperty=NAME&outputIdScheme=ID";
+
+                apiChart2 = getApiStr(dataElementID, orgUnitID, peGen);
+
             } else {
             }
         }
@@ -279,11 +283,16 @@
                     peGen += ((Number(year)) + quarterArr[i]);
                     if (i < quarterArr.length - 1) peGen += ";";
                 }
-                apiChart3 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:" + dataElementID + "&displayProperty=NAME&outputIdScheme=ID";
+
+                apiChart3 = getApiStr(dataElementID, orgUnitID, peGen);
+
             } else {
             }
         }
-
+        function getApiStr(dataElementID, orgUnitID, peGen) {
+            //http://139.162.30.100:8080/dhis_scale/api/analytics.json?dimension=dx:nlyO8gj4uHd&dimension=pe:201410;201411;201412;201510;201511;201512&filter=ou:WCIF0Llr1a1&displayProperty=NAME
+            return apiAnalyticTemplate + dataElementID + "&dimension=pe:" + peGen + "&filter=ou:" + orgUnitID + "&displayProperty=NAME";
+        }
         function autoGenerateChartHtml(numChartGroup) {
             $('#chartBody').html('');
             var count = 1;
@@ -313,7 +322,7 @@
         //get the all selected dropdown ids and name
         function validateDashboard() {
 
-            var groupSelect=false;
+            var groupSelect = false;
             //orgUnit Related
             var orgUnitList = document.getElementById('dropdown');
             var tempOrgUnitUid = orgUnitList.options[orgUnitList.selectedIndex].value;
@@ -362,17 +371,17 @@
 
             //generate html
             if (tempDataElementUid != "base" && tempDataElementUid != undefined) {
-                groupSelect=false;
+                groupSelect = false;
             } else {
-                groupSelect=true;
+                groupSelect = true;
             }
 
             myFunction(groupSelect, chartDataGroup, organisationUnits, tempOrgUnitUid, tempDataElementUid, tempMonthUid, tempYearUid);
 
         }
 
-        function getNamebyId(id, list){
-            var res='';
+        function getNamebyId(id, list) {
+            var res = '';
             for (var i = 0; i < list.length; i++) {
                 if (list[i].id == id) {
                     res = list[i].name;
@@ -410,7 +419,7 @@
                     subtitle: tempOrgUnitText
                 }, tempOrgUnitUid, tempMonthUid, tempYearUid);
             } else {
-                var numChartGroup= chartDataGroup.length;
+                var numChartGroup = chartDataGroup.length;
                 var chartGroupId = autoGenerateChartHtml(numChartGroup);
 
                 for (var i = 0; i < numChartGroup; i++) {
@@ -609,8 +618,7 @@
             var json = jsonRes;
             var datarows = json.rows;
             var peArr = json.metaData.pe;
-            var facilityArr = json.metaData[facility];
-            var dataResult = [];
+            var facilityArr = json.metaData.dx;
 
             for (var i = 0; i < peArr.length; i++) {
                 var pe = peArr[i];
@@ -630,14 +638,14 @@
             }
             json.rows = datarows;
             json.metaData.pe = peArr;
-            json.metaData[facility] = facilityArr;
+            json.metaData.dx = facilityArr;
             return json;
         }
 
         function sortDataRowsbyPeArr(json) {
             var datarows = json.rows;
             var peArr = json.metaData.pe;
-            var facilityArr = json.metaData[facility];
+            var facilityArr = json.metaData.dx;
             var dataResult = [];
             for (var i = 0; i < peArr.length; i++) {
                 var minPe = peArr[i];
@@ -657,7 +665,7 @@
         function preparingDataforChart(json, count) {
 
             var peArr = json.metaData.pe;
-            var facilityArr = json.metaData[facility];
+            var facilityArr = json.metaData.dx;
             var dataResult = sortDataRowsbyPeArr(json);
 
 
