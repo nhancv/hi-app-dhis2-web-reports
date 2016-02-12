@@ -117,6 +117,8 @@ function validateDashboard() {
     //generate html
     if (tempDataElementUid != "base" && tempDataElementUid != undefined) {
         numChartGroup = 1;
+    } else {
+        numChartGroup = chartDataGroup.length;
     }
 
     myFunction(numChartGroup, chartDataGroup, tempOrgUnitUid, tempDataElementUid, tempMonthUid, tempYearUid);
@@ -130,9 +132,9 @@ function myFunction(numChartGroup, chartDataGroup, tempOrgUnitUid, tempDataEleme
         generateApiChart2(tempOrgUnitUid, tempDataElementUid, tempYearUid);
         generateApiChart3(tempOrgUnitUid, tempDataElementUid, tempYearUid);
 
-        var titleDe='Chart';
-        for(var i =0; i<chartDataGroup.length; i++){
-            if(chartDataGroup[i].id==tempDataElementUid){
+        var titleDe = 'Chart';
+        for (var i = 0; i < chartDataGroup.length; i++) {
+            if (chartDataGroup[i].id == tempDataElementUid) {
                 titleDe = chartDataGroup[i].name;
             }
         }
