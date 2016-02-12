@@ -172,7 +172,6 @@
         var apiChart2 = apiAnalyticTemplate;
         var apiChart3 = apiAnalyticTemplate;
 
-        var numChartGroup = 1;
         var chartDataGroup;
         var organisationUnits;
         function initial() {
@@ -186,7 +185,6 @@
             $("#dataElementGroup").change(function () {
                 var dataElementGroupID = $(this).find("option:selected").val();
                 $.getJSON(apiDataElement + dataElementGroupID + ".json?fields=id,name,dataElements[id,name]", function (data) {
-                    numChartGroup = data.dataElements.length; //num of dataElements in a group
                     chartDataGroup = data.dataElements; //all DE ids and name
                     $('#dataElements').html('<option selected value="base">Please Select DataElement</option>');
                     $.each(data.dataElements, function (index, item) {
@@ -315,6 +313,7 @@
         //get the all selected dropdown ids and name
         function validateDashboard() {
 
+            var groupSelect=false;
             //orgUnit Related
             var orgUnitList = document.getElementById('dropdown');
             var tempOrgUnitUid = orgUnitList.options[orgUnitList.selectedIndex].value;
@@ -360,14 +359,15 @@
                 return;
             }
 
+
             //generate html
             if (tempDataElementUid != "base" && tempDataElementUid != undefined) {
-                numChartGroup = 1;
+                groupSelect=false;
             } else {
-                numChartGroup = chartDataGroup.length;
+                groupSelect=true;
             }
 
-            myFunction(numChartGroup, chartDataGroup, organisationUnits, tempOrgUnitUid, tempDataElementUid, tempMonthUid, tempYearUid);
+            myFunction(groupSelect, chartDataGroup, organisationUnits, tempOrgUnitUid, tempDataElementUid, tempMonthUid, tempYearUid);
 
         }
 
@@ -381,11 +381,13 @@
             return res;
         }
 
-        function myFunction(numChartGroup, chartDataGroup, organisationUnits, tempOrgUnitUid, tempDataElementUid, tempMonthUid, tempYearUid) {
-            var chartGroupId = autoGenerateChartHtml(numChartGroup);
+        function myFunction(groupSelect, chartDataGroup, organisationUnits, tempOrgUnitUid, tempDataElementUid, tempMonthUid, tempYearUid) {
+
             var tempOrgUnitText = getNamebyId(tempOrgUnitUid, organisationUnits);
 
-            if (numChartGroup == 1) { //there is only one data element in data element group
+            if (groupSelect == false) { //there is only one data element in data element group
+                autoGenerateChartHtml(1);
+
                 generateApiChart1(tempOrgUnitUid, tempDataElementUid, tempYearUid);
                 generateApiChart2(tempOrgUnitUid, tempDataElementUid, tempYearUid);
                 generateApiChart3(tempOrgUnitUid, tempDataElementUid, tempYearUid);
@@ -408,6 +410,9 @@
                     subtitle: tempOrgUnitText
                 }, tempOrgUnitUid, tempMonthUid, tempYearUid);
             } else {
+                var numChartGroup= chartDataGroup.length;
+                var chartGroupId = autoGenerateChartHtml(numChartGroup);
+
                 for (var i = 0; i < numChartGroup; i++) {
 
                     generateApiChart1(tempOrgUnitUid, chartDataGroup[i].id, tempYearUid);
