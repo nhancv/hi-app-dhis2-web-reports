@@ -29,10 +29,10 @@ function generateApiChart3(orgUnitID, dataElementID, year) {
         var quarterArr = ["10", "11", "12"];
         var peGen = "";
         for (var i = 0; i < quarterArr.length; i++) {
-            peGen += (year + quarterArr[i]) + ";";
+            peGen += ((Number(year) - 1) + quarterArr[i]) + ";";
         }
         for (var i = 0; i < quarterArr.length; i++) {
-            peGen += ((Number(year) + 1) + quarterArr[i]);
+            peGen += ((Number(year)) + quarterArr[i]);
             if (i < quarterArr.length - 1) peGen += ";";
         }
         apiChart3 = apiAnalyticTemplate + peGen + "&filter=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&filter=dx:" + dataElementID + "&displayProperty=NAME&outputIdScheme=ID";
@@ -48,7 +48,7 @@ function autoGenerateChartHtml(numChartGroup) {
         chartGroupId.push([count++, count++, count++]);
     }
     for (var i = 0; i < numChartGroup; i++) {
-        var chartBody = '<div class="container2"> ' +
+        var chartBody = '<br><div class="container2"> ' +
             '<div class="container1"> ' +
             '<div class="col1"> ' +
             '<div id="chart' + chartGroupId[i][0] + '" style="min-width: 310px; height: 400px;" class="floating-box"></div>' +
@@ -58,9 +58,9 @@ function autoGenerateChartHtml(numChartGroup) {
             '</div> ' +
             '</div>' +
             '</div> ' +
-            '<div class="footer">' +
+            '<br><div class="footer">' +
             '<div id="chart' + chartGroupId[i][2] + '" style="min-width: 310px; height: 400px " class="floating-box"></div>' +
-            '</div>';
+            '</div><br><hr>';
         $('#chartBody').append(chartBody);
     }
     return chartGroupId;
