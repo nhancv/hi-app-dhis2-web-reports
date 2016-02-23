@@ -176,6 +176,8 @@
             src="../../../dhis-web-commons/javascripts/jQuery/jquery.min.js?_rev=$!{buildRevision}"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/heatmap.js"></script>
+
     <script>
         /*Declare global variable at here*/
         var TESTING = 0;
@@ -190,6 +192,7 @@
         var apiDataElementGroups = "../api/dataElementGroups.json?fields=id,name";
         var apiDataElement = "../api/dataElementGroups/";
         var apiChart1, apiChart2, apiChart3, apiChart4, apiChart5, apiChart6, apiChart7, apiChart8, apiChart9, apiChart10, apiChart11, apiChart12, apiChart13, apiChart14, apiChart15;
+        var apiHchart1, apiHchart2, apiHchart3, apiHchart4, apiHchart5, apiHchart6, apiHchart7, apiHchart8;
         var period = [], a, b, c;
         var period_a = [], period_b = [], period_c = [];
         var organisationUnits, organisationUnitsSort = [];
@@ -230,7 +233,6 @@
             for (var i = 0; i < result.length; i++) {
                 strPeriod += ";" + result[i];
             }
-            console.log(strPeriod);
         }
 
         function populateDropDownList(_monthfield, _yearfield) {
@@ -477,6 +479,22 @@
 
         }
 
+        function generateApiChartHChart(orgUnitID, dataElementID, year, month) {
+            if (configDeploy == PRODUCTION) {
+                var quarterArr = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+                var endMonth = Math.min(month, quarterArr.length);
+                var peGen = "";
+                for (var i = 0; i < endMonth; i++) {
+                    peGen += (year + quarterArr[i]);
+                    if (i < endMonth - 1) peGen += ";";
+                }
+                return "../api/analytics.json?dimension=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&dimension=pe:" + peGen + "&filter=dx:" + dataElementID + "&displayProperty=NAME";
+            } else {
+                return null;
+            }
+
+        }
+
 
         //get the all selected dropdown ids and name
         function validateDashboard() {
@@ -490,7 +508,6 @@
             // month related
             var tempMonthList = document.getElementById('ddlMonth');
             var tempMonthUid = tempMonthList.options[tempMonthList.selectedIndex].value;
-            console.log(tempMonthUid);
 
             // year related
             var tempYearList = document.getElementById('year');
@@ -541,11 +558,9 @@
             generateApiChart5(tempOrgUnitUid, tempYearUid);
             generateApiChart6(tempOrgUnitUid, tempYearUid);
 
-
             generateApiChart7(tempOrgUnitUid, tempYearUid);
             generateApiChart8(tempOrgUnitUid, tempYearUid);
             generateApiChart9(tempOrgUnitUid, tempYearUid);
-
 
             generateApiChart10(tempOrgUnitUid, tempYearUid);
             generateApiChart11(tempOrgUnitUid, tempYearUid);
@@ -556,8 +571,21 @@
             generateApiChart14(tempOrgUnitUid, tempYearUid);
             generateApiChart15(tempOrgUnitUid, tempYearUid);
 
+            //heatmap
+            apiHchart1 = generateApiChartHChart(tempOrgUnitUid, "wsYVhfyrUzO", tempYearUid, tempMonthUid);
+            apiHchart2 = generateApiChartHChart(tempOrgUnitUid, "EimorkPYMQs", tempYearUid, tempMonthUid);
+            apiHchart3 = generateApiChartHChart(tempOrgUnitUid, "nlyO8gj4uHd", tempYearUid, tempMonthUid);
 
-            //var titleDe = getNamebyId(tempDataElementUid, chartDataGroup);
+            apiHchart4 = generateApiChartHChart(tempOrgUnitUid, "cva1dsjoeTp", tempYearUid, tempMonthUid);
+
+            apiHchart5 = generateApiChartHChart(tempOrgUnitUid, "d2q5FWQv00D", tempYearUid, tempMonthUid);
+            apiHchart6 = generateApiChartHChart(tempOrgUnitUid, "CKMPE7RrCLn", tempYearUid, tempMonthUid);
+
+            apiHchart7 = generateApiChartHChart(tempOrgUnitUid, "eSLLUQQO47o", tempYearUid, tempMonthUid);
+
+            apiHchart8 = generateApiChartHChart(tempOrgUnitUid, "XMzLKfYiLLG", tempYearUid, tempMonthUid);
+
+///////////////////ANC////////////////////////////////
 
             createChart1({
                 chartId: "chart1",
@@ -587,6 +615,26 @@
                 subtitle: tempOrgUnitText
             }, tempOrgUnitUid, tempMonthUid, tempYearUid);
 
+            createHChart(apiHchart1, {
+                chartId: "chartH1",
+                title: "ANC registration-1st trimester",
+                subtitle: tempOrgUnitText
+            }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+
+            createHChart(apiHchart2, {
+                chartId: "chartH2",
+                title: "ANC 3 checkups",
+                subtitle: tempOrgUnitText
+            }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+
+            createHChart(apiHchart3, {
+                chartId: "chartH3",
+                title: "ANC registrations",
+                subtitle: tempOrgUnitText
+            }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+
+///////////////////OPD////////////////////////////////
+
             createChart6({
                 chartId: "chart6",
                 //   title: titleDe,
@@ -598,6 +646,14 @@
                 //   title: titleDe,
                 subtitle: tempOrgUnitText
             }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+
+            createHChart(apiHchart4, {
+                chartId: "chartH4",
+                title: "OPD attendance",
+                subtitle: tempOrgUnitText
+            }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+
+///////////////////IPD////////////////////////////////
 
             createChart8({
                 chartId: "chart8",
@@ -611,6 +667,14 @@
                 subtitle: tempOrgUnitText
             }, tempOrgUnitUid, tempMonthUid, tempYearUid);
 
+            createHChart(apiHchart5, {
+                chartId: "chartH5",
+                title: "IPD admissions",
+                subtitle: tempOrgUnitText
+            }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+
+///////////////////Deliveries////////////////////////////////
+
             createChart10({
                 chartId: "chart10",
                 //   title: titleDe,
@@ -622,6 +686,14 @@
                 //   title: titleDe,
                 subtitle: tempOrgUnitText
             }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+
+            createHChart(apiHchart6, {
+                chartId: "chartH6",
+                title: "Institutional deliveries",
+                subtitle: tempOrgUnitText
+            }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+
+///////////////////3 Postnatal checkups////////////////////////////////
 
             createChart12({
                 chartId: "chart12",
@@ -635,6 +707,14 @@
                 subtitle: tempOrgUnitText
             }, tempOrgUnitUid, tempMonthUid, tempYearUid);
 
+            createHChart(apiHchart7, {
+                chartId: "chartH7",
+                title: "3 Postnatal checkups",
+                subtitle: tempOrgUnitText
+            }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+
+///////////////////Immunization////////////////////////////////
+
             createChart14({
                 chartId: "chart14",
                 //   title: titleDe,
@@ -646,6 +726,14 @@
                 //   title: titleDe,
                 subtitle: tempOrgUnitText
             }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+
+            createHChart(apiHchart8, {
+                chartId: "chartH8",
+                title: "Fully immunised children (0-11 months)",
+                subtitle: tempOrgUnitText
+            }, tempOrgUnitUid, tempMonthUid, tempYearUid);
+
+
         }
 
         function createChart1(chartInfo, tempOrgUnitUid, tempMonthUid, tempYearUid) {
@@ -823,6 +911,17 @@
                 //  count = json.metaData.pe;
                 var chartData = preparingDataforChart(json, count, facility);
                 createLineCharts15(chartInfo.chartId, chartInfo.subtitle, chartData.xaxis, chartData.series);
+            });
+        }
+
+        function createHChart(apiHchar, chartInfo, tempOrgUnitUid, tempMonthUid, tempYearUid) {
+            $.getJSON(apiHchar, function (jsonRes) {
+
+                var json = standardlizeData(jsonRes, "ou");
+                var chartData = preparingHeatMapDataforChart(json);
+
+                createHeatCharts(chartInfo.chartId, chartInfo.title, chartInfo.subtitle, chartData.xaxis, chartData.yaxis, chartData.series);
+
             });
         }
 
@@ -1778,6 +1877,40 @@
 
             });
         }
+
+
+        function preparingHeatMapDataforChart(json) {
+
+            var peArr = json.metaData.pe;
+            var facilityArr = json.metaData.ou;
+            var dataResult = sortDataRowsbyPeArr(json, "ou");
+
+            var xAxisCategoriesArr = [];
+            for (var i = 0; i < facilityArr.length; i++) {
+                xAxisCategoriesArr.push(json.metaData.names[facilityArr[i]])
+            }
+
+            var yAxisCategoriesArr = [];
+            for (var i = 0; i < peArr.length; i++) {
+                yAxisCategoriesArr.push(json.metaData.names[peArr[i]])
+            }
+
+            var dataSeriesArrO = [];
+
+            for (var i = 0; i < facilityArr.length; i++) {
+                for (var j = 0; j < peArr.length; j++) {
+                    for (var k = 0; k < dataResult.length; k++) {
+                        if (dataResult[k][0] == facilityArr[i] && dataResult[k][1] == peArr[j]) {
+                            dataSeriesArrO.push([i, j, Number(dataResult[k][2])])
+                            break;
+                        }
+                    }
+                }
+            }
+            return {xaxis: xAxisCategoriesArr, yaxis: yAxisCategoriesArr, series: dataSeriesArrO};
+        }
+
+
         function standardlizeData(jsonRes, secondKey) {
             var json = jsonRes;
             var datarows = json.rows;
@@ -1910,32 +2043,40 @@
         <div id="chart2" style="float: right;width: 50%;overflow: hidden;margin-top: 3%"></div>
         <div id="chart3" style="float: left;width: 50%;overflow: hidden;margin-top: 3%"></div>
         <div id="chart4" style="float: right;width: 50%;overflow: hidden;margin-top: 3%"></div>
-        <div id="chart5" style="width: 100%;overflow: hidden;margin-top: 65%"></div>
+        <div id="chart5" style="width: 100%;overflow: hidden;"></div>
+        <div id="chartH1" style="width: 100%;overflow: hidden;"></div>
+        <div id="chartH2" style="width: 100%;overflow: hidden;"></div>
+        <div id="chartH3" style="width: 100%;overflow: hidden;"></div>
 
         <p style="font-size: 24px;text-align: center; font-weight: bold;margin-top: 3%">OPD Attendance</p>
         <div id="chart6" style="float: right; width: 50%; overflow: hidden; margin-top: 3%"></div>
         <div id="chart7" style="float: right; width: 50%; overflow: hidden; margin-top: 3%"></div>
+        <div id="chartH4" style="width: 100%;overflow: hidden;"></div>
 
-        <p style="font-size: 24px;text-align: center; font-weight: bold;margin-left: 5%;margin-top: 35%">
+        <p style="font-size: 24px;text-align: center; font-weight: bold;margin-left: 5%;">
             IPD Admissions</p>
         <div id="chart8" style="float: left;width: 50%;overflow: hidden;margin-top: 3%"></div>
         <div id="chart9" style="float: right;width: 50%;overflow: hidden; margin-top: 3%"></div>
+        <div id="chartH5" style="width: 100%;overflow: hidden;"></div>
 
-
-        <p style="font-size: 24px;text-align: center; font-weight: bold;margin-left: 7%;margin-top: 35%">
+        <p style="font-size: 24px;text-align: center; font-weight: bold;margin-left: 7%;">
             Institutional Deliveries</p>
         <div id="chart10" style="float: left;width: 50%;overflow: hidden;margin-top: 3%"></div>
         <div id="chart11" style="float: right;width: 50%;overflow: hidden;margin-top: 3%"></div>
+        <div id="chartH6" style="width: 100%;overflow: hidden;"></div>
 
-        <p style="font-size: 24px;text-align: center; font-weight: bold;margin-left: 5%;margin-top: 35%">3
+        <p style="font-size: 24px;text-align: center; font-weight: bold;margin-left: 5%;">3
             Postnatal Checkups</p>
         <div id="chart12" style="float: left;width: 50%;overflow: hidden;margin-top: 3%"></div>
         <div id="chart13" style="float: right;width: 50%;overflow: hidden;margin-top: 3%"></div>
+        <div id="chartH7" style="width: 100%;overflow: hidden;"></div>
+
         <br/>
-        <p style="font-size: 24px;text-align: center; font-weight: bold;margin-left: 5%;margin-top: 33%">
+        <p style="font-size: 24px;text-align: center; font-weight: bold;margin-left: 5%;">
             Full Immunization</p>
         <div id="chart14" style="float: left;width: 50%;overflow: hidden;margin-top: 3%"></div>
         <div id="chart15" style="float: right;width: 50%;overflow: hidden;margin-top: 3%"></div>
+        <div id="chartH8" style="width: 100%;overflow: hidden;"></div>
 
 
     </div>
