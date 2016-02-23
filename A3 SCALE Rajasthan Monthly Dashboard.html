@@ -223,6 +223,23 @@
         function formatNum2digit(num) {
             return ("0" + num).slice(-2);
         }
+
+
+        function getBackMonths(yearId, monthId, numMonth) {
+            var peGen = "";
+            var result = [];
+            var d = new Date(yearId, monthId);
+            for (var i = 0; i < numMonth; i++) {
+                d.setMonth(d.getMonth() - 1);
+                result.push(d.getFullYear() + '' + formatNum2digit(d.getMonth() + 1));
+            }
+            for (var i = 0; i < result.length; i++) {
+                peGen += result[i];
+                if (i < result.length - 1) peGen += ";";
+            }
+            return peGen;
+        }
+
         function calcLastSixMonths(yearId, monthId) {
             var result = [];
 
@@ -482,14 +499,7 @@
 
         function generateApiChartHChart(orgUnitID, dataElementID, year, month) {
             if (configDeploy == PRODUCTION) {
-                var quarterArr = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
-                var endMonth = Math.min(month, quarterArr.length);
-                var peGen = "";
-                for (var i = 0; i < endMonth; i++) {
-                    peGen += (year + quarterArr[i]);
-                    if (i < endMonth - 1) peGen += ";";
-                }
-                return "../api/analytics.json?dimension=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&dimension=pe:" + peGen + "&filter=dx:" + dataElementID + "&displayProperty=NAME";
+                return "../api/analytics.json?dimension=ou:" + orgUnitID + ";OU_GROUP-lBQUJ9K4wQK&dimension=pe:" + getBackMonths(year, month, 12) + "&filter=dx:" + dataElementID + "&displayProperty=NAME";
             } else {
                 return null;
             }
