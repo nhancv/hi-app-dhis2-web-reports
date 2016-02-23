@@ -175,9 +175,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script type="text/javascript"
             src="../../../dhis-web-commons/javascripts/jQuery/jquery.min.js?_rev=$!{buildRevision}"></script>
-    <script src="https://code.highcharts.com/highcharts.js"></script>
-    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/heatmap.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="http://code.highcharts.com/modules/heatmap.js"></script>
+    <script src="http://code.highcharts.com/modules/offline-exporting.js"></script>
 
     <script>
         /*Declare global variable at here*/
@@ -1832,8 +1833,6 @@
 
                 chart: {
                     type: 'heatmap',
-//                    marginTop: 40,
-//                    marginBottom: 80,
                     plotBorderWidth: 1
                 },
 
@@ -1884,8 +1883,12 @@
                         enabled: true,
                         color: '#000000'
                     }
-                }]
+                }],
 
+                exporting: {
+                    sourceWidth: 2000,
+                    sourceHeight: 800
+                }
             });
         }
 
