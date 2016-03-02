@@ -52,69 +52,90 @@ function createLineCharts(view) {
 
 function createBarCharts(view) {
     $(view).highcharts({
-        chart: {
-            type: 'column'
-        },
         title: {
-            text: 'Monthly Average Rainfall'
+            text: 'Combination chart'
         },
-        subtitle: {
-            text: 'Source: WorldClimate.com'
-        },
-        xAxis: {
-            categories: [
-                'Jan',
-                'Feb',
-                'Mar',
-                'Apr',
-                'May',
-                'Jun',
-                'Jul',
-                'Aug',
-                'Sep',
-                'Oct',
-                'Nov',
-                'Dec'
-            ],
-            crosshair: true
-        },
-        yAxis: {
-            min: 0,
+        yAxis: [{ //--- Primary yAxis
             title: {
-                text: 'Rainfall (mm)'
+                text: 'Temperature'
+            },
+            plotLines: [{
+                value: 6,
+                color: 'green',
+                dashStyle: 'shortdash',
+                width: 2,
+                label: {}
+            }, {
+                value: 5,
+                color: 'red',
+                dashStyle: 'shortdash',
+                width: 2,
+                label: {}
+            }]
+        }, { //--- Secondary yAxis
+            title: {
+                text: 'Rainfall'
+            },
+            plotLines: [{
+                value: 7,
+                color: 'green',
+                dashStyle: 'shortdash',
+                width: 2,
+                label: {}
+            }, {
+                value: 2,
+                color: 'red',
+                dashStyle: 'shortdash',
+                width: 2,
+                label: {}
+            }]
+        }],
+        xAxis: {
+            categories: ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
+        },
+        labels: {
+            items: [{
+                html: 'Total fruit consumption',
+                style: {
+                    left: '50px',
+                    top: '18px',
+                    color: (Highcharts.theme && Highcharts.theme.textColor) || 'black'
+                }
+            }]
+        },
+        series: [
+            {
+                type: 'column',
+                name: 'Jane',
+                data: [3, 2, 1, 3, 4]
+            }, {
+                type: 'column',
+                name: 'John',
+                data: [2, 3, 5, 7, 6]
+            }, {
+                type: 'column',
+                name: 'Joe',
+                data: [4, 3, 3, 9, 0]
+            },
+            {
+                type: 'line',
+                name: 'line1',
+                lineWidth: 1,
+                lineColor: 'green',
+                radius: 0,
+                color: 'green',
+                dashStyle: 'longdash',
+            },
+            {
+                type: 'line',
+                name: 'line2',
+                lineWidth: 1,
+                lineColor: 'red',
+                radius: 0,
+                color: 'red',
+                dashStyle: 'longdash'
             }
-        },
-        tooltip: {
-            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
-            footerFormat: '</table>',
-            shared: true,
-            useHTML: true
-        },
-        plotOptions: {
-            column: {
-                pointPadding: 0.2,
-                borderWidth: 0
-            }
-        },
-        series: [{
-            name: 'Tokyo',
-            data: [49.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
-
-        }, {
-            name: 'New York',
-            data: [83.6, 78.8, 98.5, 93.4, 106.0, 84.5, 105.0, 104.3, 91.2, 83.5, 106.6, 92.3]
-
-        }, {
-            name: 'London',
-            data: [48.9, 38.8, 39.3, 41.4, 47.0, 48.3, 59.0, 59.6, 52.4, 65.2, 59.3, 51.2]
-
-        }, {
-            name: 'Berlin',
-            data: [42.4, 33.2, 34.5, 39.7, 52.6, 75.5, 57.4, 60.4, 47.6, 39.1, 46.8, 51.1]
-
-        }]
+        ]
     });
 }
 
