@@ -832,8 +832,8 @@
         function createHChart(apiHchar, chartInfo, tempOrgUnitUid, tempMonthUid, tempYearUid) {
             $.getJSON(apiHchar, function (jsonRes) {
 
-                var json = standardlizeData(jsonRes, "ou");
-                var chartData = preparingHeatMapDataforChart(json);
+                var json = standardlizeDataHeatMap(jsonRes, "ou");
+                var chartData = preparingHeatMapDataforChart(json, "ou");
 
                 createHeatCharts(chartInfo.chartId, chartInfo.title, chartInfo.subtitle, chartData.xaxis, chartData.yaxis, chartData.series);
 
@@ -904,11 +904,11 @@
             });
         }
 
-        function preparingHeatMapDataforChart(json) {
+        function preparingHeatMapDataforChart(json, secondKey) {
 
             var peArr = json.metaData.pe;
             var facilityArr = json.metaData.ou;
-            var dataResult = sortDataRowsbyPeArr(json, "ou");
+            var dataResult = sortDataRowsbyPeArrHeatMap(json, secondKey);
 
             var xAxisCategoriesArr = [];
             for (var i = 0; i < facilityArr.length; i++) {
@@ -925,8 +925,8 @@
             for (var i = 0; i < facilityArr.length; i++) {
                 for (var j = 0; j < peArr.length; j++) {
                     for (var k = 0; k < dataResult.length; k++) {
-                        if (dataResult[k][0] == facilityArr[i] && dataResult[k][1] == peArr[j]) {
-                            dataSeriesArrO.push([i, j, Number(dataResult[k][2])])
+                        if (dataResult[k][1] == facilityArr[i] && dataResult[k][2] == peArr[j]) {
+                            dataSeriesArrO.push([i, j, Number(dataResult[k][3])])
                             break;
                         }
                     }
@@ -935,9 +935,30 @@
             return {xaxis: xAxisCategoriesArr, yaxis: yAxisCategoriesArr, series: dataSeriesArrO};
         }
 
-        function standardlizeData(jsonRes, secondKey) {
+
+        function sortDataRowsbyPeArrHeatMap(json, secondKey) {
+            var datarows = json.rows;
+            var peArr = json.metaData.pe;
+            var facilityArr = json.metaData[secondKey];
+            var dataResult = [];
+            for (var i = 0; i < peArr.length; i++) {
+                var minPe = peArr[i];
+                for (var k = 0; k < facilityArr.length; k++) {
+                    var minF = facilityArr[k];
+                    for (var j = 0; j < datarows.length; j++) {
+                        if (datarows[j][1] == minF && datarows[j][2] == minPe) {
+                            dataResult.push(datarows[j]);
+                        }
+                    }
+                }
+            }
+            return dataResult;
+        }
+
+        function standardlizeDataHeatMap(jsonRes, secondKey) {
             var json = jsonRes;
             var datarows = json.rows;
+            var dxArr= json.metaData.dx;
             var peArr = json.metaData.pe;
             var facilityArr = json.metaData[secondKey];
 
@@ -947,17 +968,18 @@
                     var fa = facilityArr[j];
                     var search = false;
                     for (var k = 0; k < datarows.length; k++) {
-                        if (datarows[k][0] == fa && datarows[k][1] == pe) {
+                        if (datarows[k][1] == fa && datarows[k][2] == pe) {
                             search = true;
                             break;
                         }
                     }
                     if (!search) {
-                        datarows.push([fa, pe, "0"]);
+                        datarows.push([dxArr, fa, pe, "0"]);
                     }
                 }
             }
             json.rows = datarows;
+            json.metaData.dx = dxArr;
             json.metaData.pe = peArr;
             json.metaData[secondKey] = facilityArr;
             return json;
