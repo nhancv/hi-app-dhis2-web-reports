@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var api, user, pass;
+            $("#submit").click(function () {
+                api = $("#api").val();
+                user = $("#user").val();
+                pass = $("#pass").val();
+                $.post("http://localhost:3000/", {api_url: api, user_name: user, password: pass}, function (data) {
+                    $("#res").html(data);
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<h1>Hello people !</h1>
+<input type="TEXT" id="api" size="60"><br>
+<input type="TEXT" id="user" size="40"><br>
+<input type="password" id="pass" size="40"><br>
+<input type="button" id="submit" value="Submit">
+
+<div id="res"></div>
+</body>
+</html>
